@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Study Skill</title>
+<meta name="description" content="A Claude skill that turns your study material into a mastery trainer built on well-supported learning science.">
+<style>
+:root{
+  --bg:#f6f3ec; --card:#fffdf8; --ink:#2b2620; --muted:#7a6f61; --line:#e3dccf; --soft:#efe9de;
+  --accent:#8a2b1f; --accent-ink:#fff; --good:#2f7a3d; --good-bg:#e5f3e7; --tip-bg:#eef2f8; --tip:#2d4a7a;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#1b1916; --card:#25221e; --ink:#eee7dc; --muted:#a59b8c; --line:#3a352e; --soft:#2e2a25;
+  --accent:#d0634f; --accent-ink:#1b1916; --good:#7cc68a; --good-bg:#203328; --tip-bg:#232c3a; --tip:#9bb7e6;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,"Times New Roman",serif}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+header{padding:64px 0 40px}
+.eyebrow{font:600 .78rem system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(2.2rem,6vw,3.3rem);line-height:1.1;margin:10px 0 16px;letter-spacing:-.01em}
+.lede{font-size:1.2rem;color:var(--muted);max-width:620px;margin:0 0 26px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;font:600 .95rem system-ui,sans-serif;padding:13px 18px;border-radius:10px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--card)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+section{padding:36px 0;border-top:1px solid var(--line)}
+h2{font-size:1.6rem;margin:0 0 18px}
+.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.stage .n{font:700 .75rem system-ui,sans-serif;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.stage h3{margin:4px 0 6px;font-size:1.15rem}
+.stage p{margin:0;color:var(--muted);font-size:.95rem}
+ol.how{padding-left:22px;margin:0}
+ol.how li{margin-bottom:12px}
+.prompt{background:var(--tip-bg);color:var(--tip);border-radius:10px;padding:14px 16px;font-style:italic;margin:12px 0}
+code{font:.88em ui-monospace,Menlo,monospace;background:var(--soft);padding:2px 6px;border-radius:5px}
+.science{width:100%;border-collapse:collapse;font-size:.95rem}
+.science th,.science td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.science th{font:600 .78rem system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.science td:last-child{color:var(--muted);font-size:.88rem}
+.examples{display:grid;gap:12px}
+.ex{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-decoration:none;color:var(--ink)}
+.ex span{color:var(--muted);font-size:.92rem}
+.ex b{font-size:1.1rem}
+.note{color:var(--muted);font-size:.92rem}
+footer{padding:30px 0 50px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+@media (max-width:560px){.science td:last-child,.science th:last-child{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">A study skill for Claude · any subject</div>
+    <h1>Claude Study Skill</h1>
+    <p class="lede">Upload a photo of your notes, a worksheet, or a vocab list. Claude turns it into a study game that keeps quizzing you until you really know it.</p>
+    <p class="note" style="margin:-10px 0 24px">Works for any subject: languages, science, history, math, vocab, definitions, dates, formulas.</p>
+    <div class="btns">
+      <a class="btn primary" href="examples/latin-vocab-trainer.html">Try the Latin example →</a>
+      <a class="btn" href="study-skill.zip" download>Download the skill</a>
+      <a class="btn" href="#install">How to install</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>How a trainer works</h2>
+    <div class="stages">
+      <div class="stage"><div class="n">Stage 1</div><h3>Learn</h3><p>Small batches. Each item goes from multiple choice to typing it to typing it again later. Miss one and you type the right answer out.</p></div>
+      <div class="stage"><div class="n">Stage 2</div><h3>Final test</h3><p>Everything shuffled, no hints. You need a perfect score to move on. Misses go back to practice.</p></div>
+      <div class="stage"><div class="n">Stage 3</div><h3>Apply</h3><p>Use it for real: sentences to translate, word problems, or "explain why" questions.</p></div>
+      <div class="stage"><div class="n">Stage 4</div><h3>Bonus</h3><p>Flip it around, like English → Latin or definition → term.</p></div>
+    </div>
+    <p class="note" style="margin-top:14px">Every trainer also has 💡 memory tricks, ⚠️ warnings for look-alike items, 🔥 streaks, accuracy, and your toughest items. Progress saves automatically.</p>
+  </section>
+
+  <section id="install">
+    <h2>Install the skill in Claude</h2>
+    <ol class="how">
+      <li>Download <a href="study-skill.zip" download><code>study-skill.zip</code></a>.</li>
+      <li>In Claude, open <b>Customize → Skills</b> (<a href="https://claude.ai/customize/skills">claude.ai/customize/skills</a>).</li>
+      <li>Click <b>+</b>, then <b>Create skill</b>, then <b>Upload a skill</b>, and choose the zip.</li>
+      <li>Make sure the skill is toggled <b>on</b>. Skills also need <b>Code execution and file creation</b> turned on in Settings → Capabilities.</li>
+    </ol>
+    <p class="note">More detail: <a href="https://support.claude.com/en/articles/12512180-use-skills-in-claude">Use Skills in Claude</a> (Anthropic Help Center).</p>
+  </section>
+
+  <section>
+    <h2>Use it</h2>
+    <p>Start a chat, attach your material, and say:</p>
+    <div class="prompt">"Make a study trainer from this."</div>
+    <p>Or be more specific:</p>
+    <div class="prompt">"Make a study trainer from this photo of my biology vocab."<br>"Here are my Spanish chapter 5 words. The apply stage should be sentences."<br>"Make a study trainer from these history notes, focused on dates and causes."</div>
+    <p>Claude sends back an <code>.html</code> file. Open it in any browser, on a computer or a phone, and start studying.</p>
+  </section>
+
+  <section>
+    <h2>Why it works</h2>
+    <table class="science">
+      <thead><tr><th>Technique</th><th>What the trainer does</th><th>Research</th></tr></thead>
+      <tbody>
+        <tr><td>Retrieval practice</td><td>Keeps testing you instead of letting you re-read</td><td>Roediger &amp; Karpicke, 2006; Dunlosky et al., 2013</td></tr>
+        <tr><td>Spaced repetition</td><td>Missed items come back soon, known ones later</td><td>Cepeda et al., 2006</td></tr>
+        <tr><td>Desirable difficulty</td><td>Multiple choice first, then typed recall</td><td>Bjork, 1994; Slamecka &amp; Graf, 1978</td></tr>
+        <tr><td>Corrective feedback</td><td>Type out the right answer after every miss</td><td>Metcalfe, 2017</td></tr>
+        <tr><td>Mnemonics</td><td>A memory hook for every item</td><td>Atkinson &amp; Raugh, 1975</td></tr>
+        <tr><td>Interleaving</td><td>Items are mixed, never the same one twice in a row</td><td>Rohrer &amp; Taylor, 2007</td></tr>
+        <tr><td>Mastery learning</td><td>A perfect test is required before moving on</td><td>Bloom, 1968</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Example trainers</h2>
+    <div class="examples">
+      <a class="ex" href="examples/latin-vocab-trainer.html"><div><b>Latin vocabulary</b><br><span>33 words · 25 translation sentences · English → Latin bonus</span></div><span>Open →</span></a>
+      <!-- Add more trainers here: copy the line above and change the file name and text. -->
+    </div>
+  </section>
+
+  <footer>Made with Claude. The skill instructions are in <code>study-skill/SKILL.md</code>.</footer>
+</div>
+</body>
+</html>

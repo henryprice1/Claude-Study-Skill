@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latin Vocab Trainer</title>
+<style>
+:root{
+  --bg:#f6f3ec; --card:#fffdf8; --ink:#2b2620; --muted:#7a6f61; --line:#e3dccf; --soft:#efe9de;
+  --accent:#8a2b1f; --accent-ink:#fff; --good:#2f7a3d; --good-bg:#e5f3e7; --bad:#a3301f; --bad-bg:#f9e4e0;
+  --gold:#b8901a; --gold-bg:#f8efd2; --tip-bg:#eef2f8; --tip:#2d4a7a;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#1b1916; --card:#25221e; --ink:#eee7dc; --muted:#a59b8c; --line:#3a352e; --soft:#2e2a25;
+  --accent:#d0634f; --accent-ink:#1b1916; --good:#7cc68a; --good-bg:#203328; --bad:#ec8a78; --bad-bg:#3a2420;
+  --gold:#e0bd55; --gold-bg:#3a3220; --tip-bg:#232c3a; --tip:#9bb7e6;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 Georgia,"Times New Roman",serif}
+.wrap{max-width:640px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:1.6rem;margin:0 0 12px;letter-spacing:.02em}
+.steps{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.step{font:600 .78rem/1 system-ui,sans-serif;padding:7px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.step.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.step.done{color:var(--good);border-color:var(--good)}
+.hud{display:flex;gap:14px;flex-wrap:wrap;font:.85rem system-ui,sans-serif;color:var(--muted);margin-bottom:14px}
+.hud b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.label{font:600 .75rem/1.3 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.label.new{color:var(--accent)}
+.prompt{font-size:2.1rem;margin:0 0 2px;font-style:italic}
+.forms{color:var(--muted);font-size:.95rem;margin-bottom:16px;min-height:1.4em}
+.meaning{font-size:1.4rem;margin:4px 0 10px}
+.sentence{font-size:1.35rem;font-style:italic;margin:0 0 18px;line-height:1.45}
+input[type=text],textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
+.row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+button{font:600 .95rem/1 system-ui,sans-serif;padding:12px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:disabled{opacity:.5;cursor:default}
+.mc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mc button{text-align:left;font:1rem/1.3 Georgia,serif;padding:14px;min-height:56px}
+.mc button .k{font:600 .75rem system-ui,sans-serif;color:var(--muted);margin-right:6px}
+.mc button.right{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.mc button.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+@media (max-width:480px){.mc{grid-template-columns:1fr}}
+.fb{margin-top:16px;padding:14px 16px;border-radius:10px}
+.fb.good{background:var(--good-bg)}
+.fb.bad{background:var(--bad-bg)}
+.fb .head{font-weight:bold;margin-bottom:4px}
+.fb.good .head{color:var(--good)} .fb.bad .head{color:var(--bad)}
+.you{color:var(--muted);font-size:.95rem;margin-bottom:6px}
+.info{margin-top:6px}
+.deriv{color:var(--muted);font-size:.9rem;margin-top:4px}
+.hook{background:var(--tip-bg);color:var(--tip);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:.95rem}
+.warn{background:var(--gold-bg);color:var(--gold);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:.95rem}
+.typeout{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.typeout p{margin:0 0 8px;font-size:.95rem}
+.err{color:var(--bad);font:.85rem system-ui,sans-serif;margin-top:6px;min-height:1.2em}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:18px 0 6px}
+.bar > div{height:100%;background:var(--good);transition:width .3s}
+.stats{display:flex;justify-content:space-between;color:var(--muted);font:.85rem system-ui,sans-serif;gap:10px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:6px;margin-top:16px}
+.chip{font:.8rem system-ui,sans-serif;padding:6px 8px;border-radius:8px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip.l0{border-style:dashed;opacity:.55}
+.chip.l2{border-color:var(--gold);color:var(--gold)}
+.chip.l3{border-color:var(--good);color:var(--good)}
+.chip.l4{border-color:var(--good);color:var(--good);background:var(--good-bg)}
+.legend{font:.78rem system-ui,sans-serif;color:var(--muted);margin-top:8px}
+.center{text-align:center}
+.big{font-size:1.3rem;margin:8px 0 14px}
+.gloss{margin-top:10px;font-size:.92rem;color:var(--muted)}
+.gloss span{display:inline-block;margin:2px 10px 2px 0}
+.gloss i{color:var(--ink)}
+.tough{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0 14px}
+.tough span{font:.85rem system-ui,sans-serif;padding:5px 9px;border-radius:8px;background:var(--bad-bg);color:var(--bad)}
+.foot{margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.foot button{font-size:.8rem;padding:8px 12px;color:var(--muted)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-start;justify-content:center;padding:20px 12px;overflow:auto;z-index:5}
+.overlay.open{display:flex}
+.sheet{background:var(--card);border-radius:14px;max-width:640px;width:100%;padding:20px}
+.sheet table{width:100%;border-collapse:collapse;font-size:.92rem}
+.sheet td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.sheet td:first-child{font-style:italic;white-space:nowrap}
+.sheet .h{color:var(--tip);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Latin Vocab Trainer</h1>
+  <div class="steps">
+    <span class="step" id="st-learn">1 · Learn</span>
+    <span class="step" id="st-test">2 · Final test</span>
+    <span class="step" id="st-sent">3 · Sentences</span>
+    <span class="step" id="st-bonus">4 · Bonus: English → Latin</span>
+  </div>
+  <div class="hud" id="hud"></div>
+  <div class="card" id="main"></div>
+  <div class="foot">
+    <button id="listBtn">📖 Word list</button>
+    <button id="reset">Reset all progress</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"><div class="sheet">
+  <div class="row" style="justify-content:space-between;margin:0 0 10px"><b style="font-size:1.2rem">All 33 words</b><button id="closeList">Close</button></div>
+  <table id="listTable"></table>
+</div></div>
+
+<script>
+/* ===== Vocabulary: meanings, derivatives, memory hooks, and warnings ===== */
+const VOCAB = [
+ {la:"aliquid", f:"", en:["something","anything"], d:"", h:"ali-QUID: quid = what. Some-what = SOMETHING."},
+ {la:"audeō", f:"audēre, —, ausus sum", en:["to dare"], d:"audacious, audacity", h:"AUDacious people DARE to do things.", w:"Don't mix it up with audiō (to hear). audeō has an E: dare."},
+ {la:"caput", f:"capitis (n.)", en:["head"], d:"capital, chef, captain, decapitate", h:"You wear a CAP on your HEAD. The CAPtain is the head of the ship."},
+ {la:"coepī", f:"", en:["i began","began","i have begun","i started"], d:"", h:"It only shows up in the past: coepī = I BEGAN.", w:"coepērunt = they began, coepit = he/she began."},
+ {la:"cognōscō", f:"cognōscere, cognōvī, cognitus", en:["to find out","to get to know","to learn","to know","to recognize"], d:"cognitive", h:"reCOGNize, COGNitive. Getting your brain to KNOW something = FIND OUT."},
+ {la:"cōnsistō", f:"cōnsistere, cōnstitī, cōnstitus", en:["to stand firm","to stand one's ground","to stand ones ground","to stand"], d:"", h:"A CONSISTent player doesn't back down. They STAND FIRM."},
+ {la:"dea", f:"deae (f.)", en:["goddess"], d:"deify, deity", h:"DEity = a god. deus = god, dea = GODDESS (the -a ending is feminine)."},
+ {la:"dēmōnstrō", f:"dēmōnstrāre, dēmōnstrāvī, dēmōnstrātus", en:["to show","to point out","to demonstrate"], d:"demonstrate, demonstration", h:"DEMONSTRATE = SHOW how it's done."},
+ {la:"discēdō", f:"discēdere, discessī, discessus", en:["to leave","to depart","to go away"], d:"", h:"dis- (apart) + cēdō (go). Go apart = LEAVE."},
+ {la:"fortasse", f:"", en:["perhaps","maybe"], d:"", h:"Comes from forte (by chance). By chance... = PERHAPS."},
+ {la:"fortūna", f:"fortūnae (f.)", en:["fortune","luck"], d:"fortune, fortunate", h:"Looks just like FORTUNE. Good fortune = good LUCK."},
+ {la:"frangō", f:"frangere, frēgī, frāctus", en:["to break"], d:"fracture, fragile, infringe", h:"A FRACTURE is a BREAK. FRAGile things BREAK easily."},
+ {la:"ibi", f:"", en:["there"], d:"", h:"Sounds like 'ibid.' (in the same place). Point and say: 'ibi!' = THERE."},
+ {la:"invītus", f:"invīta, invītum", en:["unwillingly","unwilling"], d:"", h:"in- (NOT) + vīt- (want). Not wanting to = UNWILLINGLY.", w:"It does NOT mean 'invited'."},
+ {la:"libenter", f:"", en:["gladly","willingly","happily"], d:"", h:"Think LIBerty: you do it freely, so you do it GLADLY. Opposite of invītus."},
+ {la:"longus", f:"longa, longum", en:["long"], d:"longitude, longevity", h:"longus = LONG. Easy one!"},
+ {la:"manus", f:"manūs (f.)", en:["hand","band of men","band","group of men"], d:"manual, manacle, manufacture, maneuver", h:"MANual = done by HAND. A group of soldiers working together is a 'hand' = BAND OF MEN.", w:"Not caput (head). manus = hand / band."},
+ {la:"mīles", f:"mīlitis (m.)", en:["soldier"], d:"military, militant, demilitarize", h:"MILitary = SOLDIERS. mīlitēs = soldiers, mīlitum = of the soldiers.", w:"Not 'mile' and not mīlle (thousand)."},
+ {la:"nam", f:"", en:["for","because"], d:"", h:"nam explains a reason: 'I stayed, NAM (FOR) it was raining.'", w:"nam = for (because). prō = for (in front of / on behalf of)."},
+ {la:"nēmō", f:"", en:["no one","nobody","noone","no-one"], d:"", h:"Finding NEMO: for a long time, NO ONE could find him."},
+ {la:"nox", f:"noctis (f.)", en:["night"], d:"nocturnal, nocturne", h:"NOCturnal animals come out at NIGHT. nocte = at night."},
+ {la:"obstō", f:"obstāre, obstitī, obstitus (+ dat.)", en:["to obstruct","to block","to stand in the way"], d:"obstacle", h:"An OBSTacle BLOCKS your way. ob (in the way) + stō (stand).", w:"It takes the dative: viae obstitit = he blocked the road."},
+ {la:"pars", f:"partis (f.)", en:["part"], d:"partisan, party, participate, particular", h:"pars = PART. partem, partis are just other forms."},
+ {la:"perīculōsus", f:"perīculōsa, perīculōsum", en:["dangerous","perilous"], d:"perilous", h:"PERILous = full of PERIL = DANGEROUS. -ōsus means 'full of'."},
+ {la:"petō", f:"petere, petīvī, petitus", en:["to beg for","to ask for","to seek","to attack","to head for","to ask"], d:"petition, compete, appetite", h:"A PETITION ASKS FOR something. You go after it: SEEK, HEAD FOR, even ATTACK."},
+ {la:"posteā", f:"", en:["afterwards","afterward","later"], d:"", h:"POST- = after (post-game). posteā = AFTERWARDS.", w:"posteā = afterwards. postrēmō = finally (the very last)."},
+ {la:"postrēmō", f:"", en:["finally","in the end","lastly","at last"], d:"", h:"Sounds like 'post-extreme': the extreme end = FINALLY / LASTLY.", w:"Don't mix up with posteā (afterwards)."},
+ {la:"praesidium", f:"praesidiī (n.)", en:["protection","guard","garrison"], d:"", h:"The PRESIDent has Secret Service PROTECTION. A presidio is a fort that protects."},
+ {la:"prō", f:"(+ abl.)", en:["in front of","before","on account of","for"], d:"protagonist", h:"The PROtagonist is the one IN FRONT of the story.", w:"prō + ablative: prō templō = in front of the temple."},
+ {la:"quō?", f:"", en:["where","to where","where to","whither"], d:"", h:"'Quō vādis?' = WHERE are you going? It asks where TO."},
+ {la:"recūsō", f:"recūsāre, recūsāvī, recūsātus", en:["to refuse"], d:"recuse", h:"A judge RECUSES himself: he REFUSES to take the case."},
+ {la:"sacer", f:"sacra, sacrum", en:["sacred","holy"], d:"sacred, sacrifice, sacrilege", h:"SACer = SACred. A SACrifice is a sacred offering."},
+ {la:"saeviō", f:"saevīre, saeviī, saevītus", en:["to be in a rage","to rage","to be enraged","to be angry"], d:"savage", h:"saeviō sounds like SAVAGE. A savage beast is IN A RAGE."}
+];
+
+const SENTENCES = [
+ {la:"Nox longa et perīculōsa erat.", en:"The night was long and dangerous.", g:"nox = night · longa = long · perīculōsa = dangerous · erat = was"},
+ {la:"Ibi mīlitēs saevīre coepērunt.", en:"There the soldiers began to rage.", g:"ibi = there · mīlitēs = soldiers · saevīre = to rage · coepērunt = they began"},
+ {la:"Mīlitēs libenter discessērunt.", en:"The soldiers gladly departed.", g:"mīlitēs = soldiers · libenter = gladly · discessērunt = they departed (discēdō)"},
+ {la:"Quō discēdis? Fortasse ad urbem.", en:"Where are you going? Perhaps to the city.", g:"quō = where (to) · discēdis = you are leaving · fortasse = perhaps · ad urbem = to the city"},
+ {la:"Fortasse dea nōbīs praesidium dabit.", en:"Perhaps the goddess will give us protection.", g:"fortasse = perhaps · dea = goddess · nōbīs = (to) us · praesidium = protection · dabit = will give"},
+ {la:"Posteā mīles aliquid novum cognōvit.", en:"Afterwards the soldier found out something new.", g:"posteā = afterwards · mīles = soldier · aliquid = something · novum = new · cognōvit = found out"},
+ {la:"Mīles portam manibus frēgit.", en:"The soldier broke the gate with his hands.", g:"portam = gate · manibus = with hands (manus) · frēgit = broke (frangō)"},
+ {la:"Pars mīlitum prō templō cōnstitit.", en:"Part of the soldiers stood firm in front of the temple.", g:"pars = part · mīlitum = of the soldiers · prō templō = in front of the temple · cōnstitit = stood firm"},
+ {la:"Nēmō fortūnam suam cognōscere potest.", en:"No one can know his own fortune.", g:"nēmō = no one · fortūnam = fortune · suam = his own · cognōscere = to know · potest = can"},
+ {la:"Mīlitēs nocte urbem petīvērunt.", en:"At night the soldiers attacked the city.", g:"nocte = at night (nox) · urbem = city · petīvērunt = attacked / headed for (petō)"},
+ {la:"Puer libenter templum sacrum deae dēmōnstrāvit.", en:"The boy gladly showed the sacred temple of the goddess.", g:"puer = boy · libenter = gladly · templum sacrum = sacred temple · deae = of the goddess · dēmōnstrāvit = showed"},
+ {la:"Postrēmō rēx invītus pācem petīvit.", en:"Finally the king unwillingly asked for peace.", g:"postrēmō = finally · rēx = king · invītus = unwillingly · pācem = peace · petīvit = asked for"},
+ {la:"Rēx praesidium ā deā petīvit, sed dea recūsāvit.", en:"The king asked the goddess for protection, but the goddess refused.", g:"praesidium = protection · ā deā = from the goddess · petīvit = asked for · recūsāvit = refused"},
+ {la:"Manus mīlitum viae obstitit, et nēmō discēdere poterat.", en:"A band of soldiers blocked the road, and no one was able to leave.", g:"manus = band · viae = the road (dative with obstō) · obstitit = blocked · discēdere = to leave · poterat = was able"},
+ {la:"Nēmō ibi nocte cōnsistere audet, nam perīculōsum est.", en:"No one dares to stand firm there at night, for it is dangerous.", g:"nēmō = no one · ibi = there · nocte = at night · cōnsistere = to stand firm · audet = dares · nam = for"},
+ {la:"Mīles invītus discessit, sed posteā praesidium deae petīvit.", en:"The soldier left unwillingly, but afterwards he sought the protection of the goddess.", g:"invītus = unwillingly · discessit = left · posteā = afterwards · praesidium deae = protection of the goddess · petīvit = sought"},
+ {la:"Postrēmō nēmō manuī mīlitum obstāre audēbat.", en:"Finally no one dared to block the band of soldiers.", g:"postrēmō = finally · manuī = the band (dative with obstō) · mīlitum = of soldiers · obstāre = to block · audēbat = dared"},
+ {la:"Nēmō caput deae sacrae frangere audēbat.", en:"No one dared to break the head of the sacred goddess.", g:"caput = head · deae sacrae = of the sacred goddess · frangere = to break · audēbat = dared"},
+ {la:"Dea saevīre coepit, nam mīlitēs viam ad templum sacrum dēmōnstrāre recūsāvērunt.", en:"The goddess began to rage, for the soldiers refused to show the way to the sacred temple.", g:"saevīre = to rage · coepit = began · nam = for · viam = the way · dēmōnstrāre = to show · recūsāvērunt = they refused"},
+ {la:"Mīles fortūnam suam cognōscere audēbat, sed posteā invītus discessit.", en:"The soldier dared to find out his fortune, but afterwards he left unwillingly.", g:"cognōscere = to find out · audēbat = dared · posteā = afterwards · invītus = unwillingly · discessit = left"},
+ {la:"Quō, mīles, nocte longā discēdis?", en:"Where are you going, soldier, in the long night?", g:"quō = where (to) · mīles = soldier (being spoken to) · nocte longā = in the long night · discēdis = you are leaving"},
+ {la:"Fortasse praesidium deae petere dēbēmus.", en:"Perhaps we ought to seek the protection of the goddess.", g:"fortasse = perhaps · praesidium deae = protection of the goddess · petere = to seek · dēbēmus = we ought"},
+ {la:"Pars mīlitum libenter pugnāvit, pars invīta.", en:"Part of the soldiers fought gladly, part unwillingly.", g:"pars = part · mīlitum = of the soldiers · libenter = gladly · pugnāvit = fought · invīta = unwillingly"},
+ {la:"Nam nēmō fortūnam frangere potest.", en:"For no one is able to break fortune.", g:"nam = for · nēmō = no one · fortūnam = fortune · frangere = to break · potest = is able"},
+ {la:"Ibi aliquid sacrum cognōvimus.", en:"There we found out something sacred.", g:"ibi = there · aliquid sacrum = something sacred · cognōvimus = we found out"}
+];
+
+/* ===== Helpers ===== */
+const N = VOCAB.length, MASTER = 4, POOL = 6;
+const KEY = "latinTrainer_v2";
+const $ = id => document.getElementById(id);
+const main = $("main");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => {a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const rnd = n => Math.floor(Math.random()*n);
+const range = n => [...Array(n).keys()];
+
+function fresh(){return {stage:"learn", order:shuffle(range(N)), intro:Array(N).fill(false), lvl:Array(N).fill(0),
+  miss:Array(N).fill(0), queue:[], last:-1, testQ:[], testMiss:[], fixQ:[], sentQ:[], sentDone:0, bonusQ:[], bonusDone:false,
+  st:{r:0,w:0,streak:0,best:0}};}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));return s&&s.lvl&&s.lvl.length===N?s:null;}catch(e){return null;}}
+function save(){try{localStorage.setItem(KEY, JSON.stringify(S));}catch(e){}}
+let S = load() || fresh();
+
+function norm(s){
+  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[.!?"()]/g,"").replace(/\s+/g," ").trim()
+    .replace(/^(to |i |the |a |an )/,"").trim();
+}
+function lev(a,b){const m=[];for(let i=0;i<=a.length;i++)m[i]=[i];for(let j=0;j<=b.length;j++)m[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length];}
+function close(p,t){ if(p===t) return true; const tol=t.length>=9?2:(t.length>=5?1:0); return lev(p,t)<=tol; }
+function checkEn(input,w){
+  const parts=input.split(/[,;\/]| or /).map(norm).filter(Boolean);
+  return parts.some(p=>w.en.some(t=>close(p,norm(t))));
+}
+function checkLa(input,w){ return close(norm(input), norm(w.la)); }
+function overlap(typed, model){
+  const toks=s=>norm(s).replace(/[,;:]/g," ").split(" ").filter(Boolean);
+  const a=toks(typed), b=toks(model.replace(/\(.*?\)/g,""));
+  let hit=0; b.forEach(t=>{ if(a.some(x=>close(x,t))) hit++; });
+  return b.length? hit/b.length : 0;
+}
+function right(){S.st.r++;S.st.streak++;S.st.best=Math.max(S.st.best,S.st.streak);}
+function wrong(i){S.st.w++;S.st.streak=0;if(i!=null)S.miss[i]++;}
+function meaning(w){return w.en.filter(e=>!e.includes("'")&&e!=="noone"&&e!=="no-one").join(", ");}
+
+function info(w){
+  return `<div class="info"><i>${w.la}</i> = <b>${meaning(w)}</b></div>`+
+    (w.d?`<div class="deriv">English words from it: ${w.d}</div>`:"")+
+    `<div class="hook">💡 ${w.h}</div>`+(w.w?`<div class="warn">⚠️ ${w.w}</div>`:"");
+}
+function shake(el){el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");}
+function nextBtn(box,label){
+  const r=document.createElement("div");r.className="row";
+  r.innerHTML=`<button class="primary" id="nx">${label||"Next →"}</button>`;
+  box.appendChild(r);const b=$("nx");b.onclick=render;setTimeout(()=>b.focus(),0);
+}
+/* Type-it-out: after a miss, you copy the right answer before moving on */
+function typeOut(box, prompt, target, isOk, done){
+  const d=document.createElement("div");d.className="typeout";
+  d.innerHTML=`<p>✍️ <b>Type it out</b> to lock it in: ${prompt}</p>
+    <input type="text" id="to" placeholder="${esc(target)}" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="err" id="toErr"></div>`;
+  box.appendChild(d);
+  const inp=$("to");setTimeout(()=>inp.focus(),0);
+  inp.onkeydown=e=>{ if(e.key!=="Enter") return;
+    if(isOk(inp.value)){inp.disabled=true;done();}
+    else{ $("toErr").textContent=`Not quite. Type: ${target}`; shake(inp); }
+  };
+}
+
+/* ===== HUD / steps ===== */
+function hud(){
+  const order=["learn","test","sent","bonus"];
+  const cur = S.stage==="fix"?"test":S.stage==="done"?"bonus":S.stage;
+  order.forEach((k,i)=>{ const el=$("st-"+k); const ci=order.indexOf(cur);
+    el.className="step"+(k===cur&&S.stage!=="done"?" on":(i<ci||(S.stage==="done"&&(k!=="bonus"||S.bonusDone))?" done":"")); });
+  const m=S.lvl.filter(l=>l>=MASTER).length, tot=S.st.r+S.st.w;
+  $("hud").innerHTML=`<span>Mastered <b>${m}/${N}</b></span><span>🔥 Streak <b>${S.st.streak}</b></span>
+    <span>Best <b>${S.st.best}</b></span><span>Accuracy <b>${tot?Math.round(S.st.r/tot*100):0}%</b></span>`;
+  $("listBtn").style.display = (S.stage==="test")?"none":"";
+}
+function toughest(){
+  const t=range(N).filter(i=>S.miss[i]>0).sort((a,b)=>S.miss[b]-S.miss[a]).slice(0,6);
+  return t.length?`<p class="deriv">Your toughest words:</p><div class="tough">${t.map(i=>`<span>${VOCAB[i].la} ×${S.miss[i]}</span>`).join("")}</div>`:"";
+}
+function render(){
+  hud();
+  ({learn,test,fix,sent,bonus,done})[S.stage]();
+}
+
+/* ===== Stage 1: Learn (new word → multiple choice → typed → typed again later) ===== */
+function chips(){
+  return `<div class="grid">${VOCAB.map((v,k)=>`<div class="chip l${S.intro[k]?Math.min(S.lvl[k],4):0}">${v.la}</div>`).join("")}</div>
+  <div class="legend">dashed = not seen yet · gray = learning · gold = recognized · green outline = typed it · solid green = mastered</div>`;
+}
+function reinsert(i){
+  const l=S.lvl[i]; if(l>=MASTER) return;
+  const pos = l<=1 ? 2+rnd(2) : l===2 ? 3+rnd(3) : 6+rnd(4);
+  S.queue.splice(Math.min(S.queue.length,pos),0,i);
+}
+function learn(){
+  const mastered=S.lvl.filter(l=>l>=MASTER).length;
+  if(mastered===N){
+    main.innerHTML=`<div class="center"><div class="label">Learning complete</div>
+      <p class="big">All ${N} words mastered! 🎉</p>${toughest()}
+      <p>Final test: all ${N} words, shuffled, typed, no feedback until the end. You need a perfect score to unlock sentences.</p>
+      <div class="row" style="justify-content:center"><button class="primary" id="go">Start final test</button></div></div>`;
+    $("go").onclick=()=>{S.stage="test";S.testQ=shuffle(range(N));S.testMiss=[];save();render();};
+    return;
+  }
+  const active=range(N).filter(i=>S.intro[i]&&S.lvl[i]<MASTER);
+  if(active.length<POOL && S.order.some(i=>!S.intro[i])) return introCard(S.order.find(i=>!S.intro[i]));
+  S.queue=S.queue.filter(i=>S.intro[i]&&S.lvl[i]<MASTER);
+  if(!S.queue.length){S.queue=shuffle(active); if(S.queue[0]===S.last&&S.queue.length>1)S.queue.push(S.queue.shift());}
+  const i=S.queue.shift(); S.last=i; save();
+  if(S.lvl[i]<=1) mcCard(i); else typedCard(i);
+}
+
+function introCard(i){
+  const w=VOCAB[i];
+  main.innerHTML=`<div class="label new">✨ New word</div>
+    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
+    <div class="meaning">= <b>${meaning(w)}</b></div>
+    ${w.d?`<div class="deriv">English words from it: ${w.d}</div>`:""}
+    <div class="hook">💡 ${w.h}</div>${w.w?`<div class="warn">⚠️ ${w.w}</div>`:""}
+    <div class="typeout"><p>✍️ Type the meaning once to lock it in:</p>
+      <input type="text" id="ans" placeholder="${esc(w.en[0])}" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <div class="err" id="err"></div></div>
+    ${chips()}`;
+  const ans=$("ans");ans.focus();
+  ans.onkeydown=e=>{ if(e.key!=="Enter")return;
+    if(checkEn(ans.value,w)){S.intro[i]=true;S.lvl[i]=1;S.queue.splice(Math.min(S.queue.length,2),0,i);save();render();}
+    else{$("err").textContent=`Type: ${w.en[0]}`;shake(ans);}
+  };
+}
+
+function mcCard(i){
+  const w=VOCAB[i];
+  const others=shuffle(range(N).filter(k=>k!==i)).slice(0,3).map(k=>VOCAB[k].en[0]);
+  const opts=shuffle([w.en[0],...others]);
+  main.innerHTML=`<div class="label">Pick the meaning · step 1 of 3</div>
+    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
+    <div class="mc">${opts.map((o,k)=>`<button data-o="${esc(o)}"><span class="k">${k+1}</span>${esc(o)}</button>`).join("")}</div>
+    <div id="fbw"></div>${chips()}`;
+  let done=false;
+  const pick=btn=>{ if(done)return; done=true;
+    const ok=btn.dataset.o===w.en[0];
+    main.querySelectorAll(".mc button").forEach(b=>{b.disabled=true;if(b.dataset.o===w.en[0])b.classList.add("right");});
+    if(!ok) btn.classList.add("wrong");
+    const fb=document.createElement("div");fb.className="fb "+(ok?"good":"bad");
+    if(ok){right();S.lvl[i]=2;}else{wrong(i);S.lvl[i]=1;}
+    reinsert(i);save();hud();
+    fb.innerHTML=`<div class="head">${ok?"Correct! Next time you'll type it.":"Not quite."}</div>${info(w)}`;
+    $("fbw").appendChild(fb);
+    if(ok) nextBtn(fb); else typeOut(fb,`<b>${esc(w.en[0])}</b>`,w.en[0],v=>checkEn(v,w),()=>nextBtn(fb));
+  };
+  main.querySelectorAll(".mc button").forEach(b=>b.onclick=()=>pick(b));
+  document.onkeydown=e=>{ if(!done&&/^[1-4]$/.test(e.key)) pick(main.querySelectorAll(".mc button")[+e.key-1]); };
+}
+
+function typedCard(i){
+  const w=VOCAB[i], step=S.lvl[i]===2?2:3;
+  main.innerHTML=`<div class="label">Type the English · step ${step} of 3</div>
+    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
+    <input type="text" id="ans" placeholder="Type the English meaning" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="row"><button class="primary" id="sub">Check</button><button id="idk">I don't know</button></div>
+    <div id="fbw"></div>${chips()}`;
+  const ans=$("ans");ans.focus();let done=false;
+  const finish=ok=>{ done=true; $("sub").disabled=true;$("idk").disabled=true;ans.disabled=true;
+    const typed=ans.value.trim();
+    if(ok){right();S.lvl[i]++;}else{wrong(i);S.lvl[i]=Math.max(1,S.lvl[i]-1);}
+    reinsert(i);save();hud();
+    const fb=document.createElement("div");fb.className="fb "+(ok?"good":"bad");
+    const head= ok ? (S.lvl[i]>=MASTER?"Mastered! ⭐":"Correct! It'll come back once more to make sure.")
+                   : (S.lvl[i]===1?"Not quite. Back to multiple choice for this one.":"Not quite.");
+    fb.innerHTML=`<div class="head">${head}</div>${!ok&&typed?`<div class="you">You typed: “${esc(typed)}”</div>`:""}${info(w)}`;
+    $("fbw").appendChild(fb);
+    if(ok) nextBtn(fb); else typeOut(fb,`<b>${esc(w.en[0])}</b>`,w.en[0],v=>checkEn(v,w),()=>nextBtn(fb));
+  };
+  $("sub").onclick=()=>{ if(!done&&ans.value.trim()) finish(checkEn(ans.value,w)); };
+  $("idk").onclick=()=>{ if(!done) finish(false); };
+  ans.onkeydown=e=>{ if(e.key==="Enter") $("sub").click(); };
+}
+
+/* ===== Stage 2: Final test ===== */
+function test(){
+  if(!S.testQ.length){
+    if(S.testMiss.length){
+      main.innerHTML=`<div class="center"><div class="label">Final test results</div>
+        <p class="big">${N-S.testMiss.length} / ${N}</p>
+        <p>Missed: ${S.testMiss.map(i=>`<i>${VOCAB[i].la}</i>`).join(", ")}</p>
+        <p>You'll type each one out, then practice them again before retaking the test.</p>
+        <div class="row" style="justify-content:center"><button class="primary" id="go">Fix my misses</button></div></div>`;
+      $("go").onclick=()=>{S.fixQ=S.testMiss.slice();S.testMiss.forEach(i=>S.lvl[i]=2);S.testMiss=[];S.queue=[];S.stage="fix";save();render();};
+    } else {
+      main.innerHTML=`<div class="center"><div class="label">Final test results</div>
+        <p class="big">${N} / ${N}. Perfect! 🏛️</p><p>You know every word. Sentences unlocked.</p>
+        <div class="row" style="justify-content:center"><button class="primary" id="go">Go to sentences</button></div></div>`;
+      $("go").onclick=()=>{S.stage="sent";S.sentQ=shuffle(range(SENTENCES.length));S.sentDone=0;save();render();};
+    }
+    return;
+  }
+  const i=S.testQ[0], w=VOCAB[i], n=N-S.testQ.length;
+  main.innerHTML=`<div class="label">Final test · ${n+1} of ${N} · results at the end</div>
+    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
+    <input type="text" id="ans" placeholder="Type the English meaning" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="row"><button class="primary" id="sub">Submit</button><button id="idk">I don't know</button></div>
+    <div class="bar"><div style="width:${n/N*100}%"></div></div>`;
+  const ans=$("ans");ans.focus();
+  const go=ok=>{ if(ok)right();else{wrong(i);S.testMiss.push(i);} S.testQ.shift();save();render(); };
+  $("sub").onclick=()=>{ if(ans.value.trim()) go(checkEn(ans.value,w)); };
+  $("idk").onclick=()=>go(false);
+  ans.onkeydown=e=>{ if(e.key==="Enter") $("sub").click(); };
+}
+function fix(){
+  if(!S.fixQ.length){S.stage="learn";save();return render();}
+  const i=S.fixQ[0], w=VOCAB[i];
+  main.innerHTML=`<div class="label">Fix your misses · ${S.fixQ.length} left</div>
+    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div><div class="fb bad" id="fb">${info(w)}</div>`;
+  typeOut($("fb"),`<b>${esc(w.en[0])}</b>`,w.en[0],v=>checkEn(v,w),()=>{S.fixQ.shift();save();nextBtn($("fb"));});
+}
+
+/* ===== Stage 3: Sentences ===== */
+function sent(){
+  const T=SENTENCES.length;
+  if(!S.sentQ.length){S.stage="done";save();return render();}
+  const i=S.sentQ[0], s=SENTENCES[i];
+  main.innerHTML=`<div class="label">Translate into English</div>
+    <p class="sentence">${s.la}</p>
+    <textarea id="ans" placeholder="Your translation"></textarea>
+    <div class="row"><button class="primary" id="sub">Check</button></div>
+    <div id="fbw"></div>
+    <div class="bar"><div style="width:${S.sentDone/T*100}%"></div></div>
+    <div class="stats"><span>${S.sentDone} / ${T} done</span><span>sentences you miss come back later</span></div>`;
+  const ans=$("ans");ans.focus();
+  ans.onkeydown=e=>{ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("sub").click();} };
+  $("sub").onclick=()=>{
+    if(!ans.value.trim())return;
+    $("sub").disabled=true;ans.disabled=true;
+    const fb=document.createElement("div");fb.className="fb good";
+    fb.innerHTML=`<div class="you">You wrote: “${esc(ans.value.trim())}”</div>
+      <div><b>Model translation:</b> ${s.en}</div>
+      <div class="gloss"><b>Word by word:</b><br>${s.g.split(" · ").map(x=>{const [a,b]=x.split(" = ");return `<span><i>${a}</i> = ${b}</span>`;}).join("")}</div>
+      <p class="deriv" style="margin-top:10px">Same meaning counts, even if you worded it differently. Be honest!</p>
+      <div class="row"><button class="primary" id="ok">✅ I got it</button><button id="no">❌ I missed something</button></div>`;
+    $("fbw").appendChild(fb);
+    $("ok").onclick=()=>{right();S.sentQ.shift();S.sentDone++;save();render();};
+    $("no").onclick=()=>{
+      wrong(null);$("ok").disabled=true;$("no").disabled=true;fb.className="fb bad";
+      typeOut(fb,"the correct translation",s.en.replace(/\(.*?\)/g,"").replace(/\s+/g," ").trim(),v=>overlap(v,s.en)>=0.8,()=>{
+        S.sentQ.shift();S.sentQ.splice(Math.min(S.sentQ.length,3),0,i);save();nextBtn(fb);
+      });
+    };
+  };
+}
+
+/* ===== Stage 4: Bonus English → Latin ===== */
+function bonus(){
+  if(!S.bonusQ.length){S.bonusDone=true;S.stage="done";save();return render();}
+  const i=S.bonusQ[0], w=VOCAB[i], n=N-S.bonusQ.length;
+  main.innerHTML=`<div class="label">Bonus · English → Latin · ${S.bonusQ.length} left</div>
+    <p class="prompt" style="font-style:normal">${meaning(w)}</p><div class="forms">Type the Latin word (macrons optional)</div>
+    <input type="text" id="ans" placeholder="Latin word" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="row"><button class="primary" id="sub">Check</button><button id="idk">I don't know</button></div>
+    <div id="fbw"></div>
+    <div class="bar"><div style="width:${n/N*100}%"></div></div>`;
+  const ans=$("ans");ans.focus();let done=false;
+  const finish=ok=>{ done=true;$("sub").disabled=true;$("idk").disabled=true;ans.disabled=true;
+    const fb=document.createElement("div");fb.className="fb "+(ok?"good":"bad");
+    S.bonusQ.shift();
+    if(ok)right();else{wrong(i);S.bonusQ.splice(Math.min(S.bonusQ.length,3),0,i);}
+    save();hud();
+    fb.innerHTML=`<div class="head">${ok?"Correct!":"Not quite."}</div>${!ok&&ans.value.trim()?`<div class="you">You typed: “${esc(ans.value.trim())}”</div>`:""}
+      <div class="info"><b><i>${w.la}</i></b>${w.f?`, ${w.f}`:""}</div><div class="hook">💡 ${w.h}</div>`;
+    $("fbw").appendChild(fb);
+    if(ok) nextBtn(fb); else typeOut(fb,`<b><i>${w.la}</i></b>`,w.la.replace("?",""),v=>checkLa(v,w),()=>nextBtn(fb));
+  };
+  $("sub").onclick=()=>{ if(!done&&ans.value.trim()) finish(checkLa(ans.value,w)); };
+  $("idk").onclick=()=>{ if(!done) finish(false); };
+  ans.onkeydown=e=>{ if(e.key==="Enter") $("sub").click(); };
+}
+
+/* ===== Hub after sentences ===== */
+function done(){
+  main.innerHTML=`<div class="center"><div class="label">${S.bonusDone?"Everything complete":"Sentences complete"}</div>
+    <p class="big">${S.bonusDone?"You crushed it both ways. Optime! 🏆":`All ${SENTENCES.length} sentences done. Optime! 🎉`}</p>
+    ${toughest()}
+    <div class="row" style="justify-content:center">
+      <button class="primary" id="b">${S.bonusDone?"Redo English → Latin":"Bonus: English → Latin"}</button>
+      <button id="s">Sentences again</button><button id="w">Review words</button></div></div>`;
+  $("b").onclick=()=>{S.stage="bonus";S.bonusQ=shuffle(range(N));save();render();};
+  $("s").onclick=()=>{S.stage="sent";S.sentQ=shuffle(range(SENTENCES.length));S.sentDone=0;save();render();};
+  $("w").onclick=()=>{S.lvl=S.lvl.map(()=>3);S.queue=[];S.stage="learn";save();render();};
+}
+
+/* ===== Word list + reset ===== */
+$("listTable").innerHTML=VOCAB.map(w=>`<tr><td>${w.la}</td><td><b>${meaning(w)}</b>${w.f?`<div class="deriv">${w.f}</div>`:""}<div class="h">💡 ${w.h}</div></td></tr>`).join("");
+$("listBtn").onclick=()=>$("overlay").classList.add("open");
+$("closeList").onclick=()=>$("overlay").classList.remove("open");
+$("overlay").onclick=e=>{ if(e.target.id==="overlay") $("overlay").classList.remove("open"); };
+$("reset").onclick=()=>{ if(confirm("Reset all progress?")){S=fresh();save();render();} };
+const _render=render; render=function(){document.onkeydown=null;_render();};
+render();
+</script>
+</body>
+</html>
