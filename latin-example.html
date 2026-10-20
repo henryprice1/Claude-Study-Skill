@@ -8,472 +8,974 @@
 :root{
   --bg:#f6f3ec; --card:#fffdf8; --ink:#2b2620; --muted:#7a6f61; --line:#e3dccf; --soft:#efe9de;
   --accent:#8a2b1f; --accent-ink:#fff; --good:#2f7a3d; --good-bg:#e5f3e7; --bad:#a3301f; --bad-bg:#f9e4e0;
-  --gold:#b8901a; --gold-bg:#f8efd2; --tip-bg:#eef2f8; --tip:#2d4a7a;
+  --gold:#9a7512; --gold-bg:#f8efd2; --tip-bg:#eef2f8; --tip:#2d4a7a; --hi:#fff3b0;
+  --l1:#e9e2d5; --l2:#f1dc9c; --l3:#b9d3ef; --l4:#8fcf9c;
 }
 @media (prefers-color-scheme: dark){
   :root{--bg:#1b1916; --card:#25221e; --ink:#eee7dc; --muted:#a59b8c; --line:#3a352e; --soft:#2e2a25;
   --accent:#d0634f; --accent-ink:#1b1916; --good:#7cc68a; --good-bg:#203328; --bad:#ec8a78; --bad-bg:#3a2420;
-  --gold:#e0bd55; --gold-bg:#3a3220; --tip-bg:#232c3a; --tip:#9bb7e6;}
+  --gold:#e0bd55; --gold-bg:#3a3220; --tip-bg:#232c3a; --tip:#9bb7e6; --hi:#5a4b14;
+  --l1:#3a352e; --l2:#6b5a22; --l3:#2c4a6e; --l4:#2f6b3c;}
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 Georgia,"Times New Roman",serif}
-.wrap{max-width:640px;margin:0 auto;padding:24px 16px 60px}
-h1{font-size:1.6rem;margin:0 0 12px;letter-spacing:.02em}
-.steps{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.step{font:600 .78rem/1 system-ui,sans-serif;padding:7px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.wrap{max-width:660px;margin:0 auto;padding:20px 16px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+h1{font-size:1.5rem;margin:0;letter-spacing:.02em}
+h2{font-size:1.25rem;margin:0 0 10px}
+.steps{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.step{font:600 .75rem/1 system-ui,sans-serif;padding:7px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
 .step.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .step.done{color:var(--good);border-color:var(--good)}
-.hud{display:flex;gap:14px;flex-wrap:wrap;font:.85rem system-ui,sans-serif;color:var(--muted);margin-bottom:14px}
+.hud{display:flex;gap:14px;flex-wrap:wrap;font:.85rem system-ui,sans-serif;color:var(--muted);margin-bottom:12px}
 .hud b{color:var(--ink)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.label{font:600 .75rem/1.3 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.label{font:600 .74rem/1.3 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
 .label.new{color:var(--accent)}
-.prompt{font-size:2.1rem;margin:0 0 2px;font-style:italic}
-.forms{color:var(--muted);font-size:.95rem;margin-bottom:16px;min-height:1.4em}
-.meaning{font-size:1.4rem;margin:4px 0 10px}
-.sentence{font-size:1.35rem;font-style:italic;margin:0 0 18px;line-height:1.45}
-input[type=text],textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.prompt{font-size:2rem;margin:0 0 2px;font-style:italic}
+.forms{color:var(--muted);font-size:.95rem;margin-bottom:14px;min-height:1.2em}
+.meaning{font-size:1.45rem;margin:4px 0 14px}
+.q{font-size:1.2rem;margin:0 0 14px}
+.cue{font:.8rem system-ui,sans-serif;color:var(--muted);margin-bottom:6px}
+.sentence{font-size:1.3rem;font-style:italic;margin:0 0 14px;line-height:1.45}
+input[type=text],input[type=date],textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input[type=date]{width:auto;padding:9px 10px;font:.95rem system-ui,sans-serif}
 textarea{min-height:90px;resize:vertical}
 input:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
-.row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-button{font:600 .95rem/1 system-ui,sans-serif;padding:12px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}
+button{font:600 .92rem/1.1 system-ui,sans-serif;padding:11px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
 button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.small{font-size:.8rem;padding:7px 11px}
 button:disabled{opacity:.5;cursor:default}
+.kbd{font:500 .72rem system-ui,sans-serif;opacity:.75;margin-left:4px}
 .mc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mc button{text-align:left;font:1rem/1.3 Georgia,serif;padding:14px;min-height:56px}
+.mc button{text-align:left;font:1rem/1.3 Georgia,serif;padding:13px;min-height:54px}
 .mc button .k{font:600 .75rem system-ui,sans-serif;color:var(--muted);margin-right:6px}
 .mc button.right{background:var(--good-bg);border-color:var(--good);color:var(--good)}
 .mc button.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.mc.qs{grid-template-columns:1fr}
 @media (max-width:480px){.mc{grid-template-columns:1fr}}
-.fb{margin-top:16px;padding:14px 16px;border-radius:10px}
-.fb.good{background:var(--good-bg)}
-.fb.bad{background:var(--bad-bg)}
+.fb{margin-top:14px;padding:14px 16px;border-radius:10px}
+.fb.good{background:var(--good-bg)} .fb.bad{background:var(--bad-bg)}
 .fb .head{font-weight:bold;margin-bottom:4px}
 .fb.good .head{color:var(--good)} .fb.bad .head{color:var(--bad)}
 .you{color:var(--muted);font-size:.95rem;margin-bottom:6px}
-.info{margin-top:6px}
-.deriv{color:var(--muted);font-size:.9rem;margin-top:4px}
-.hook{background:var(--tip-bg);color:var(--tip);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:.95rem}
-.warn{background:var(--gold-bg);color:var(--gold);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:.95rem}
+.hook,.why,.warn,.main{border-radius:8px;padding:8px 10px;margin-top:8px;font-size:.95rem}
+.hook{background:var(--tip-bg);color:var(--tip)}
+.why{background:var(--soft)}
+.warn{background:var(--gold-bg);color:var(--gold)}
+.main{border:1px dashed var(--line);color:var(--muted)}
+.zap{background:var(--bad-bg);color:var(--bad);border-radius:8px;padding:8px 10px;margin-top:8px;font-weight:bold}
 .typeout{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
 .typeout p{margin:0 0 8px;font-size:.95rem}
 .err{color:var(--bad);font:.85rem system-ui,sans-serif;margin-top:6px;min-height:1.2em}
 .shake{animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:18px 0 6px}
+mark{background:var(--hi);color:inherit;border-radius:3px;padding:0 2px}
+.idea{background:var(--hi);border-radius:8px;padding:8px 10px;margin-top:8px}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.keys span{font:.8rem system-ui,sans-serif;padding:4px 8px;border-radius:999px;border:1px solid var(--line)}
+.keys span.hit{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 2px}
 .bar > div{height:100%;background:var(--good);transition:width .3s}
-.stats{display:flex;justify-content:space-between;color:var(--muted);font:.85rem system-ui,sans-serif;gap:10px;flex-wrap:wrap}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:6px;margin-top:16px}
-.chip{font:.8rem system-ui,sans-serif;padding:6px 8px;border-radius:8px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chip.l0{border-style:dashed;opacity:.55}
-.chip.l2{border-color:var(--gold);color:var(--gold)}
-.chip.l3{border-color:var(--good);color:var(--good)}
-.chip.l4{border-color:var(--good);color:var(--good);background:var(--good-bg)}
-.legend{font:.78rem system-ui,sans-serif;color:var(--muted);margin-top:8px}
+.units{display:grid;gap:8px;margin:8px 0 14px}
+.unit{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:var(--bg)}
+.unit input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent)}
+.unit .t{font-weight:bold}
+.unit .s{font:.8rem system-ui,sans-serif;color:var(--muted)}
+.unit .grow{flex:1}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.pill{font:600 .8rem system-ui,sans-serif;padding:6px 10px;border-radius:999px;background:var(--soft)}
+.banner{border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:.95rem}
+.banner.test{background:var(--bad-bg);color:var(--bad)}
+.banner.rev{background:var(--tip-bg);color:var(--tip)}
+.banner.calm{background:var(--soft);color:var(--muted)}
+.sub{font:.85rem system-ui,sans-serif;color:var(--muted)}
+.tests{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tests span{font:.8rem system-ui,sans-serif;padding:5px 9px;border-radius:8px;background:var(--soft)}
+.tests button{padding:0 0 0 6px;border:0;background:none;color:var(--muted);font-size:.85rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px;margin-top:16px}
+.chip{position:relative;font:.8rem system-ui,sans-serif;padding:6px 8px;border-radius:8px;border:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip span{position:relative}
+.legend{font:.76rem system-ui,sans-serif;color:var(--muted);margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:3px;border:1px solid var(--line)}
 .center{text-align:center}
-.big{font-size:1.3rem;margin:8px 0 14px}
+.big{font-size:1.25rem;margin:8px 0 12px}
 .gloss{margin-top:10px;font-size:.92rem;color:var(--muted)}
-.gloss span{display:inline-block;margin:2px 10px 2px 0}
-.gloss i{color:var(--ink)}
-.tough{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0 14px}
-.tough span{font:.85rem system-ui,sans-serif;padding:5px 9px;border-radius:8px;background:var(--bad-bg);color:var(--bad)}
-.foot{margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.tough{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tough span{font:.82rem system-ui,sans-serif;padding:5px 9px;border-radius:8px;background:var(--bad-bg);color:var(--bad)}
+.foot{margin-top:18px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .foot button{font-size:.8rem;padding:8px 12px;color:var(--muted)}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-start;justify-content:center;padding:20px 12px;overflow:auto;z-index:5}
 .overlay.open{display:flex}
 .sheet{background:var(--card);border-radius:14px;max-width:640px;width:100%;padding:20px}
 .sheet table{width:100%;border-collapse:collapse;font-size:.92rem}
 .sheet td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
-.sheet td:first-child{font-style:italic;white-space:nowrap}
+.sheet td:first-child{font-style:italic}
 .sheet .h{color:var(--tip);font-size:.85rem}
+.tips{margin:10px 0 0;padding-left:20px;font-size:.95rem}
+.tips li{margin-bottom:4px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Latin Vocab Trainer</h1>
-  <div class="steps">
-    <span class="step" id="st-learn">1 · Learn</span>
-    <span class="step" id="st-test">2 · Final test</span>
-    <span class="step" id="st-sent">3 · Sentences</span>
-    <span class="step" id="st-bonus">4 · Bonus: English → Latin</span>
-  </div>
+  <div class="top"><h1>Latin Vocab Trainer</h1><button class="small" id="homeBtn">🏠 Home</button></div>
+  <div class="steps" id="steps"></div>
   <div class="hud" id="hud"></div>
   <div class="card" id="main"></div>
+  <div id="below"></div>
   <div class="foot">
     <button id="listBtn">📖 Word list</button>
-    <button id="reset">Reset all progress</button>
+    <button id="setBtn">⚙️ Backup &amp; settings</button>
+    <button id="resetSel">Reset selected units</button>
   </div>
 </div>
 
-<div class="overlay" id="overlay"><div class="sheet">
-  <div class="row" style="justify-content:space-between;margin:0 0 10px"><b style="font-size:1.2rem">All 33 words</b><button id="closeList">Close</button></div>
+<div class="overlay" id="listOv"><div class="sheet">
+  <div class="row" style="justify-content:space-between;margin:0 0 10px"><b style="font-size:1.15rem">Items in your selected units</b><button id="closeList">Close</button></div>
   <table id="listTable"></table>
 </div></div>
 
+<div class="overlay" id="setOv"><div class="sheet">
+  <div class="row" style="justify-content:space-between;margin:0 0 10px"><b style="font-size:1.15rem">⚙️ Backup &amp; settings</b><button id="closeSet">Close</button></div>
+  <p class="sub">Progress saves in this browser. To move it to another device (or keep a backup), copy this code and paste it there.</p>
+  <textarea id="exportBox" readonly></textarea>
+  <div class="row"><button id="copyBtn">Copy code</button><span class="sub" id="copyMsg"></span></div>
+  <p class="sub" style="margin-top:18px">Restore from a code:</p>
+  <textarea id="importBox" placeholder="Paste a backup code here"></textarea>
+  <div class="row"><button id="importBtn" class="primary">Restore</button></div>
+  <div class="err" id="importErr"></div>
+  <div class="row" style="margin-top:18px"><button id="eraseBtn">Erase all progress</button></div>
+</div></div>
+
 <script>
-/* ===== Vocabulary: meanings, derivatives, memory hooks, and warnings ===== */
+/* ================= Study material ================= */
+const SUBJECT = "Latin Vocab Trainer";
+const KEY = "studytrain_latin_vocab";
+
+const UNITS = [
+ {id:"A", title:"List A · aliquid → fortasse", pages:"10 words", main:"Can you go from Latin to English and back without stopping to think?"},
+ {id:"B", title:"List B · fortūna → nox", pages:"11 words", main:"Can you go from Latin to English and back without stopping to think?"},
+ {id:"C", title:"List C · obstō → saeviō", pages:"12 words", main:"Can you go from Latin to English and back without stopping to think?"},
+ {id:"G", title:"Grammar & look-alikes", pages:"6 ideas", main:"Why do these words behave the way they do in a sentence?"}
+];
+
+/* la, forms, m = meaning shown on backward cards, en = accepted answers, h = hook, d = why it matters, w = warning */
 const VOCAB = [
- {la:"aliquid", f:"", en:["something","anything"], d:"", h:"ali-QUID: quid = what. Some-what = SOMETHING."},
- {la:"audeō", f:"audēre, —, ausus sum", en:["to dare"], d:"audacious, audacity", h:"AUDacious people DARE to do things.", w:"Don't mix it up with audiō (to hear). audeō has an E: dare."},
- {la:"caput", f:"capitis (n.)", en:["head"], d:"capital, chef, captain, decapitate", h:"You wear a CAP on your HEAD. The CAPtain is the head of the ship."},
- {la:"coepī", f:"", en:["i began","began","i have begun","i started"], d:"", h:"It only shows up in the past: coepī = I BEGAN.", w:"coepērunt = they began, coepit = he/she began."},
- {la:"cognōscō", f:"cognōscere, cognōvī, cognitus", en:["to find out","to get to know","to learn","to know","to recognize"], d:"cognitive", h:"reCOGNize, COGNitive. Getting your brain to KNOW something = FIND OUT."},
- {la:"cōnsistō", f:"cōnsistere, cōnstitī, cōnstitus", en:["to stand firm","to stand one's ground","to stand ones ground","to stand"], d:"", h:"A CONSISTent player doesn't back down. They STAND FIRM."},
- {la:"dea", f:"deae (f.)", en:["goddess"], d:"deify, deity", h:"DEity = a god. deus = god, dea = GODDESS (the -a ending is feminine)."},
- {la:"dēmōnstrō", f:"dēmōnstrāre, dēmōnstrāvī, dēmōnstrātus", en:["to show","to point out","to demonstrate"], d:"demonstrate, demonstration", h:"DEMONSTRATE = SHOW how it's done."},
- {la:"discēdō", f:"discēdere, discessī, discessus", en:["to leave","to depart","to go away"], d:"", h:"dis- (apart) + cēdō (go). Go apart = LEAVE."},
- {la:"fortasse", f:"", en:["perhaps","maybe"], d:"", h:"Comes from forte (by chance). By chance... = PERHAPS."},
- {la:"fortūna", f:"fortūnae (f.)", en:["fortune","luck"], d:"fortune, fortunate", h:"Looks just like FORTUNE. Good fortune = good LUCK."},
- {la:"frangō", f:"frangere, frēgī, frāctus", en:["to break"], d:"fracture, fragile, infringe", h:"A FRACTURE is a BREAK. FRAGile things BREAK easily."},
- {la:"ibi", f:"", en:["there"], d:"", h:"Sounds like 'ibid.' (in the same place). Point and say: 'ibi!' = THERE."},
- {la:"invītus", f:"invīta, invītum", en:["unwillingly","unwilling"], d:"", h:"in- (NOT) + vīt- (want). Not wanting to = UNWILLINGLY.", w:"It does NOT mean 'invited'."},
- {la:"libenter", f:"", en:["gladly","willingly","happily"], d:"", h:"Think LIBerty: you do it freely, so you do it GLADLY. Opposite of invītus."},
- {la:"longus", f:"longa, longum", en:["long"], d:"longitude, longevity", h:"longus = LONG. Easy one!"},
- {la:"manus", f:"manūs (f.)", en:["hand","band of men","band","group of men"], d:"manual, manacle, manufacture, maneuver", h:"MANual = done by HAND. A group of soldiers working together is a 'hand' = BAND OF MEN.", w:"Not caput (head). manus = hand / band."},
- {la:"mīles", f:"mīlitis (m.)", en:["soldier"], d:"military, militant, demilitarize", h:"MILitary = SOLDIERS. mīlitēs = soldiers, mīlitum = of the soldiers.", w:"Not 'mile' and not mīlle (thousand)."},
- {la:"nam", f:"", en:["for","because"], d:"", h:"nam explains a reason: 'I stayed, NAM (FOR) it was raining.'", w:"nam = for (because). prō = for (in front of / on behalf of)."},
- {la:"nēmō", f:"", en:["no one","nobody","noone","no-one"], d:"", h:"Finding NEMO: for a long time, NO ONE could find him."},
- {la:"nox", f:"noctis (f.)", en:["night"], d:"nocturnal, nocturne", h:"NOCturnal animals come out at NIGHT. nocte = at night."},
- {la:"obstō", f:"obstāre, obstitī, obstitus (+ dat.)", en:["to obstruct","to block","to stand in the way"], d:"obstacle", h:"An OBSTacle BLOCKS your way. ob (in the way) + stō (stand).", w:"It takes the dative: viae obstitit = he blocked the road."},
- {la:"pars", f:"partis (f.)", en:["part"], d:"partisan, party, participate, particular", h:"pars = PART. partem, partis are just other forms."},
- {la:"perīculōsus", f:"perīculōsa, perīculōsum", en:["dangerous","perilous"], d:"perilous", h:"PERILous = full of PERIL = DANGEROUS. -ōsus means 'full of'."},
- {la:"petō", f:"petere, petīvī, petitus", en:["to beg for","to ask for","to seek","to attack","to head for","to ask"], d:"petition, compete, appetite", h:"A PETITION ASKS FOR something. You go after it: SEEK, HEAD FOR, even ATTACK."},
- {la:"posteā", f:"", en:["afterwards","afterward","later"], d:"", h:"POST- = after (post-game). posteā = AFTERWARDS.", w:"posteā = afterwards. postrēmō = finally (the very last)."},
- {la:"postrēmō", f:"", en:["finally","in the end","lastly","at last"], d:"", h:"Sounds like 'post-extreme': the extreme end = FINALLY / LASTLY.", w:"Don't mix up with posteā (afterwards)."},
- {la:"praesidium", f:"praesidiī (n.)", en:["protection","guard","garrison"], d:"", h:"The PRESIDent has Secret Service PROTECTION. A presidio is a fort that protects."},
- {la:"prō", f:"(+ abl.)", en:["in front of","before","on account of","for"], d:"protagonist", h:"The PROtagonist is the one IN FRONT of the story.", w:"prō + ablative: prō templō = in front of the temple."},
- {la:"quō?", f:"", en:["where","to where","where to","whither"], d:"", h:"'Quō vādis?' = WHERE are you going? It asks where TO."},
- {la:"recūsō", f:"recūsāre, recūsāvī, recūsātus", en:["to refuse"], d:"recuse", h:"A judge RECUSES himself: he REFUSES to take the case."},
- {la:"sacer", f:"sacra, sacrum", en:["sacred","holy"], d:"sacred, sacrifice, sacrilege", h:"SACer = SACred. A SACrifice is a sacred offering."},
- {la:"saeviō", f:"saevīre, saeviī, saevītus", en:["to be in a rage","to rage","to be enraged","to be angry"], d:"savage", h:"saeviō sounds like SAVAGE. A savage beast is IN A RAGE."}
+ {u:"A",la:"aliquid",f:"",m:"something, anything",en:["something","anything"],h:"ali-QUID: quid = what. Some-what = SOMETHING.",d:"Latin uses it whenever something new or unknown turns up in a story."},
+ {u:"A",la:"audeō",f:"audēre, —, ausus sum",m:"to dare",en:["to dare","dare"],h:"AUDacious people DARE to do things.",d:"English words from it: audacious, audacity.",w:"Don't mix it up with audiō (to hear). audeō has an E: dare."},
+ {u:"A",la:"caput",f:"capitis (n.)",m:"head",en:["head"],h:"You wear a CAP on your HEAD. The CAPtain is the head of the ship.",d:"English words from it: capital, captain, chef, decapitate."},
+ {u:"A",la:"coepī",f:"coepisse",m:"I began",en:["i began","began","i have begun","i started","started"],h:"It only shows up in the past: coepī = I BEGAN.",d:"Pairs with an infinitive: saevīre coepērunt = they began to rage.",w:"coepit = he/she began, coepērunt = they began."},
+ {u:"A",la:"cognōscō",f:"cognōscere, cognōvī, cognitus",m:"to find out, get to know",en:["to find out","to get to know","to learn","to know","to recognize","find out"],h:"reCOGNize, COGNitive. Getting your brain to KNOW something = FIND OUT.",d:"English words from it: cognitive, recognize."},
+ {u:"A",la:"cōnsistō",f:"cōnsistere, cōnstitī",m:"to stand firm",en:["to stand firm","to stand one's ground","to stand ground","to stand","stand firm"],h:"A CONSISTent player doesn't back down. They STAND FIRM.",d:"Battle stories use it when soldiers hold their ground."},
+ {u:"A",la:"dea",f:"deae (f.)",m:"goddess",en:["goddess"],h:"DEity = a god. deus = god, dea = GODDESS (the -a ending is feminine).",d:"English words from it: deity, deify."},
+ {u:"A",la:"dēmōnstrō",f:"dēmōnstrāre, dēmōnstrāvī, dēmōnstrātus",m:"to show, point out",en:["to show","to point out","to demonstrate","show"],h:"DEMONSTRATE = SHOW how it's done.",d:"English words from it: demonstrate, demonstration."},
+ {u:"A",la:"discēdō",f:"discēdere, discessī, discessus",m:"to leave, depart",en:["to leave","to depart","to go away","leave","depart"],h:"dis- (apart) + cēdō (go). Go apart = LEAVE.",d:"One of the most common verbs for moving away in Latin stories."},
+ {u:"A",la:"fortasse",f:"",m:"perhaps",en:["perhaps","maybe"],h:"Comes from forte (by chance). By chance... = PERHAPS.",d:"Softens a statement, just like 'maybe' in English."},
+ {u:"B",la:"fortūna",f:"fortūnae (f.)",m:"fortune, luck",en:["fortune","luck"],h:"Looks just like FORTUNE. Good fortune = good LUCK.",d:"English words from it: fortune, fortunate."},
+ {u:"B",la:"frangō",f:"frangere, frēgī, frāctus",m:"to break",en:["to break","break"],h:"A FRACTURE is a BREAK. FRAGile things BREAK easily.",d:"English words from it: fracture, fragile, infringe."},
+ {u:"B",la:"ibi",f:"",m:"there",en:["there"],h:"Point and say 'ibi!' = THERE.",d:"Points back to a place the story already mentioned."},
+ {u:"B",la:"invītus",f:"invīta, invītum",m:"unwilling(ly)",en:["unwillingly","unwilling"],h:"in- (NOT) + vīt- (want). Not wanting to = UNWILLINGLY.",d:"The opposite of libenter (gladly).",w:"It does NOT mean 'invited'."},
+ {u:"B",la:"libenter",f:"",m:"gladly, willingly",en:["gladly","willingly","happily"],h:"Think LIBerty: you do it freely, so you do it GLADLY.",d:"The opposite of invītus (unwillingly)."},
+ {u:"B",la:"longus",f:"longa, longum",m:"long",en:["long"],h:"longus = LONG. Easy one!",d:"English words from it: longitude, longevity."},
+ {u:"B",la:"manus",f:"manūs (f.)",m:"hand; band of men",en:["hand","band of men","band","group of men"],h:"MANual = done by HAND. Soldiers working together are a 'hand' = BAND OF MEN.",d:"English words from it: manual, manufacture, maneuver.",w:"Not caput (head). manus = hand / band."},
+ {u:"B",la:"mīles",f:"mīlitis (m.)",m:"soldier",en:["soldier"],h:"MILitary = SOLDIERS. mīlitēs = soldiers.",d:"English words from it: military, militant.",w:"Not 'mile' and not mīlle (thousand)."},
+ {u:"B",la:"nam",f:"",m:"for (because)",en:["for","because"],h:"nam gives a reason: 'I stayed, NAM (FOR) it was raining.'",d:"Introduces the reason for what was just said.",w:"nam = for (because). prō = for (in front of / on behalf of)."},
+ {u:"B",la:"nēmō",f:"",m:"no one",en:["no one","nobody","noone"],h:"Finding NEMO: for a long time, NO ONE could find him.",d:"A very common subject: nēmō audet = no one dares."},
+ {u:"B",la:"nox",f:"noctis (f.)",m:"night",en:["night"],h:"NOCturnal animals come out at NIGHT. nocte = at night.",d:"English words from it: nocturnal, nocturne."},
+ {u:"C",la:"obstō",f:"obstāre, obstitī (+ dat.)",m:"to block, stand in the way",en:["to block","to obstruct","to stand in the way","block"],h:"An OBSTacle BLOCKS your way. ob (in the way) + stō (stand).",d:"English word from it: obstacle.",w:"It takes the dative: viae obstitit = he blocked the road."},
+ {u:"C",la:"pars",f:"partis (f.)",m:"part",en:["part"],h:"pars = PART. partem, partis are just other forms.",d:"English words from it: part, particle, participate."},
+ {u:"C",la:"perīculōsus",f:"perīculōsa, perīculōsum",m:"dangerous",en:["dangerous","perilous"],h:"PERILous = full of PERIL = DANGEROUS. -ōsus means 'full of'.",d:"English word from it: perilous."},
+ {u:"C",la:"petō",f:"petere, petīvī, petītus",m:"to ask for, seek, attack",en:["to ask for","to seek","to attack","to beg for","to head for","to ask","seek","attack"],h:"A PETITION ASKS FOR something. You go after it: SEEK, HEAD FOR, even ATTACK.",d:"English words from it: petition, compete, appetite."},
+ {u:"C",la:"posteā",f:"",m:"afterwards",en:["afterwards","afterward","later"],h:"POST- = after (post-game). posteā = AFTERWARDS.",d:"Moves a story forward in time.",w:"posteā = afterwards. postrēmō = finally (the very last)."},
+ {u:"C",la:"postrēmō",f:"",m:"finally",en:["finally","in the end","lastly","at last"],h:"Sounds like 'post-extreme': the extreme end = FINALLY.",d:"Signals the last event in a series.",w:"Don't mix up with posteā (afterwards)."},
+ {u:"C",la:"praesidium",f:"praesidiī (n.)",m:"protection, guard",en:["protection","guard","garrison"],h:"The PRESIDent has Secret Service PROTECTION.",d:"A presidio is a fort that protects a town."},
+ {u:"C",la:"prō",f:"(+ abl.)",m:"in front of; on behalf of",en:["in front of","on behalf of","before","for"],h:"The PROtagonist is the one IN FRONT of the story.",d:"English word from it: protagonist. It takes the ablative.",w:"prō + ablative: prō templō = in front of the temple."},
+ {u:"C",la:"quō?",f:"",m:"where (to)?",en:["where","to where","where to","whither"],h:"'Quō vādis?' = WHERE are you going? It asks where TO.",d:"Asks about the direction someone is heading."},
+ {u:"C",la:"recūsō",f:"recūsāre, recūsāvī, recūsātus",m:"to refuse",en:["to refuse","refuse"],h:"A judge RECUSES himself: he REFUSES to take the case.",d:"English word from it: recuse."},
+ {u:"C",la:"sacer",f:"sacra, sacrum",m:"sacred, holy",en:["sacred","holy"],h:"SACer = SACred. A SACrifice is a sacred offering.",d:"English words from it: sacred, sacrifice, sacrilege."},
+ {u:"C",la:"saeviō",f:"saevīre, saeviī, saevītus",m:"to be in a rage",en:["to be in a rage","to rage","to be enraged","to be angry","rage"],h:"saeviō sounds like SAVAGE. A savage beast is IN A RAGE.",d:"English word from it: savage."}
 ];
 
+/* Explain items: forward = question → short answer; backward = answer → explain it in your own words */
+const GRAMMAR = [
+ {u:"G",q:"Which case does obstō use for the thing being blocked?",a:["dative","the dative","dative case"],h:"Think 'stand in the way TO someone': TO/FOR words go in the dative.",d:"Verbs of blocking or resisting take the dative, so viae obstitit means he blocked the road.",w:"Not the accusative: viam obstitit is wrong.",mc:["accusative","ablative","genitive"]},
+ {u:"G",q:"Which case follows the preposition prō?",a:["ablative","the ablative","ablative case"],h:"PRŌ and ABLative both start in front: the ABLE guard stands PRŌ (in front of) the gate.",d:"prō takes the ablative, so prō templō means in front of the temple.",w:"ad and per take the accusative; prō does not.",mc:["accusative","dative","genitive"]},
+ {u:"G",q:"What does the ending -ōsus add to a noun, as in perīculōsus?",a:["full of"],h:"-ōsus ≈ English -ous: dangerOUS, gloriOUS = FULL OF.",d:"It turns a noun into an adjective: perīculum, danger, becomes perīculōsus, dangerous.",mc:["without","a little","the opposite of"]},
+ {u:"G",q:"Which Latin verb, easily confused with audeō (to dare), means to hear?",a:["audiō","audio"],h:"audIō has an I, like audIo speakers: you HEAR them.",d:"audiō gives English audio and audience, while audeō gives audacious.",w:"audeō (E) = dare, audiō (I) = hear.",mc:["audeō","videō","adeō"]},
+ {u:"G",q:"In which tense does coepī (I began) appear?",a:["perfect","the perfect","perfect tense"],h:"coepī is already DONE (it began), so it lives only in the PERFECT.",d:"coepī has only perfect forms: coepit means he began and coepērunt means they began.",mc:["present","future","imperfect"]},
+ {u:"G",q:"What does the prefix dis- mean in discēdō (to leave)?",a:["apart","away"],h:"DIStant, DISmiss: things moving APART.",d:"dis- plus cēdō, go, means go apart, so discēdō is to leave or depart.",mc:["together","again","toward"]}
+];
+
+/* Apply: translation sentences (w = words used) and explain questions */
 const SENTENCES = [
- {la:"Nox longa et perīculōsa erat.", en:"The night was long and dangerous.", g:"nox = night · longa = long · perīculōsa = dangerous · erat = was"},
- {la:"Ibi mīlitēs saevīre coepērunt.", en:"There the soldiers began to rage.", g:"ibi = there · mīlitēs = soldiers · saevīre = to rage · coepērunt = they began"},
- {la:"Mīlitēs libenter discessērunt.", en:"The soldiers gladly departed.", g:"mīlitēs = soldiers · libenter = gladly · discessērunt = they departed (discēdō)"},
- {la:"Quō discēdis? Fortasse ad urbem.", en:"Where are you going? Perhaps to the city.", g:"quō = where (to) · discēdis = you are leaving · fortasse = perhaps · ad urbem = to the city"},
- {la:"Fortasse dea nōbīs praesidium dabit.", en:"Perhaps the goddess will give us protection.", g:"fortasse = perhaps · dea = goddess · nōbīs = (to) us · praesidium = protection · dabit = will give"},
- {la:"Posteā mīles aliquid novum cognōvit.", en:"Afterwards the soldier found out something new.", g:"posteā = afterwards · mīles = soldier · aliquid = something · novum = new · cognōvit = found out"},
- {la:"Mīles portam manibus frēgit.", en:"The soldier broke the gate with his hands.", g:"portam = gate · manibus = with hands (manus) · frēgit = broke (frangō)"},
- {la:"Pars mīlitum prō templō cōnstitit.", en:"Part of the soldiers stood firm in front of the temple.", g:"pars = part · mīlitum = of the soldiers · prō templō = in front of the temple · cōnstitit = stood firm"},
- {la:"Nēmō fortūnam suam cognōscere potest.", en:"No one can know his own fortune.", g:"nēmō = no one · fortūnam = fortune · suam = his own · cognōscere = to know · potest = can"},
- {la:"Mīlitēs nocte urbem petīvērunt.", en:"At night the soldiers attacked the city.", g:"nocte = at night (nox) · urbem = city · petīvērunt = attacked / headed for (petō)"},
- {la:"Puer libenter templum sacrum deae dēmōnstrāvit.", en:"The boy gladly showed the sacred temple of the goddess.", g:"puer = boy · libenter = gladly · templum sacrum = sacred temple · deae = of the goddess · dēmōnstrāvit = showed"},
- {la:"Postrēmō rēx invītus pācem petīvit.", en:"Finally the king unwillingly asked for peace.", g:"postrēmō = finally · rēx = king · invītus = unwillingly · pācem = peace · petīvit = asked for"},
- {la:"Rēx praesidium ā deā petīvit, sed dea recūsāvit.", en:"The king asked the goddess for protection, but the goddess refused.", g:"praesidium = protection · ā deā = from the goddess · petīvit = asked for · recūsāvit = refused"},
- {la:"Manus mīlitum viae obstitit, et nēmō discēdere poterat.", en:"A band of soldiers blocked the road, and no one was able to leave.", g:"manus = band · viae = the road (dative with obstō) · obstitit = blocked · discēdere = to leave · poterat = was able"},
- {la:"Nēmō ibi nocte cōnsistere audet, nam perīculōsum est.", en:"No one dares to stand firm there at night, for it is dangerous.", g:"nēmō = no one · ibi = there · nocte = at night · cōnsistere = to stand firm · audet = dares · nam = for"},
- {la:"Mīles invītus discessit, sed posteā praesidium deae petīvit.", en:"The soldier left unwillingly, but afterwards he sought the protection of the goddess.", g:"invītus = unwillingly · discessit = left · posteā = afterwards · praesidium deae = protection of the goddess · petīvit = sought"},
- {la:"Postrēmō nēmō manuī mīlitum obstāre audēbat.", en:"Finally no one dared to block the band of soldiers.", g:"postrēmō = finally · manuī = the band (dative with obstō) · mīlitum = of soldiers · obstāre = to block · audēbat = dared"},
- {la:"Nēmō caput deae sacrae frangere audēbat.", en:"No one dared to break the head of the sacred goddess.", g:"caput = head · deae sacrae = of the sacred goddess · frangere = to break · audēbat = dared"},
- {la:"Dea saevīre coepit, nam mīlitēs viam ad templum sacrum dēmōnstrāre recūsāvērunt.", en:"The goddess began to rage, for the soldiers refused to show the way to the sacred temple.", g:"saevīre = to rage · coepit = began · nam = for · viam = the way · dēmōnstrāre = to show · recūsāvērunt = they refused"},
- {la:"Mīles fortūnam suam cognōscere audēbat, sed posteā invītus discessit.", en:"The soldier dared to find out his fortune, but afterwards he left unwillingly.", g:"cognōscere = to find out · audēbat = dared · posteā = afterwards · invītus = unwillingly · discessit = left"},
- {la:"Quō, mīles, nocte longā discēdis?", en:"Where are you going, soldier, in the long night?", g:"quō = where (to) · mīles = soldier (being spoken to) · nocte longā = in the long night · discēdis = you are leaving"},
- {la:"Fortasse praesidium deae petere dēbēmus.", en:"Perhaps we ought to seek the protection of the goddess.", g:"fortasse = perhaps · praesidium deae = protection of the goddess · petere = to seek · dēbēmus = we ought"},
- {la:"Pars mīlitum libenter pugnāvit, pars invīta.", en:"Part of the soldiers fought gladly, part unwillingly.", g:"pars = part · mīlitum = of the soldiers · libenter = gladly · pugnāvit = fought · invīta = unwillingly"},
- {la:"Nam nēmō fortūnam frangere potest.", en:"For no one is able to break fortune.", g:"nam = for · nēmō = no one · fortūnam = fortune · frangere = to break · potest = is able"},
- {la:"Ibi aliquid sacrum cognōvimus.", en:"There we found out something sacred.", g:"ibi = there · aliquid sacrum = something sacred · cognōvimus = we found out"}
+ {la:"Nox longa et perīculōsa erat.",en:"The night was long and dangerous.",g:"nox = night · longa = long · perīculōsa = dangerous · erat = was",w:"nox longus periculosus"},
+ {la:"Ibi mīlitēs saevīre coepērunt.",en:"There the soldiers began to rage.",g:"ibi = there · mīlitēs = soldiers · saevīre = to rage · coepērunt = they began",w:"ibi miles saevio coepi"},
+ {la:"Mīlitēs libenter discessērunt.",en:"The soldiers gladly departed.",g:"mīlitēs = soldiers · libenter = gladly · discessērunt = they departed",w:"miles libenter discedo"},
+ {la:"Quō discēdis? Fortasse ad urbem.",en:"Where are you going? Perhaps to the city.",g:"quō = where (to) · discēdis = you are leaving · fortasse = perhaps · ad urbem = to the city",w:"quo discedo fortasse"},
+ {la:"Fortasse dea nōbīs praesidium dabit.",en:"Perhaps the goddess will give us protection.",g:"fortasse = perhaps · dea = goddess · nōbīs = (to) us · praesidium = protection · dabit = will give",w:"fortasse dea praesidium"},
+ {la:"Posteā mīles aliquid novum cognōvit.",en:"Afterwards the soldier found out something new.",g:"posteā = afterwards · mīles = soldier · aliquid = something · novum = new · cognōvit = found out",w:"postea miles aliquid cognosco"},
+ {la:"Mīles portam manibus frēgit.",en:"The soldier broke the gate with his hands.",g:"portam = gate · manibus = with hands · frēgit = broke",w:"miles manus frango"},
+ {la:"Pars mīlitum prō templō cōnstitit.",en:"Part of the soldiers stood firm in front of the temple.",g:"pars = part · mīlitum = of the soldiers · prō templō = in front of the temple · cōnstitit = stood firm",w:"pars miles pro consisto"},
+ {la:"Nēmō fortūnam suam cognōscere potest.",en:"No one can know his own fortune.",g:"nēmō = no one · fortūnam = fortune · suam = his own · cognōscere = to know · potest = can",w:"nemo fortuna cognosco"},
+ {la:"Mīlitēs nocte urbem petīvērunt.",en:"At night the soldiers attacked the city.",g:"nocte = at night · urbem = city · petīvērunt = attacked",w:"miles nox peto"},
+ {la:"Puer libenter templum sacrum deae dēmōnstrāvit.",en:"The boy gladly showed the sacred temple of the goddess.",g:"puer = boy · libenter = gladly · templum sacrum = sacred temple · deae = of the goddess · dēmōnstrāvit = showed",w:"libenter sacer dea demonstro"},
+ {la:"Postrēmō rēx invītus pācem petīvit.",en:"Finally the king unwillingly asked for peace.",g:"postrēmō = finally · rēx = king · invītus = unwillingly · pācem = peace · petīvit = asked for",w:"postremo invitus peto"},
+ {la:"Rēx praesidium ā deā petīvit, sed dea recūsāvit.",en:"The king asked the goddess for protection, but the goddess refused.",g:"praesidium = protection · ā deā = from the goddess · petīvit = asked for · recūsāvit = refused",w:"praesidium dea peto recuso"},
+ {la:"Manus mīlitum viae obstitit, et nēmō discēdere poterat.",en:"A band of soldiers blocked the road, and no one was able to leave.",g:"manus = band · viae = the road (dative with obstō) · obstitit = blocked · discēdere = to leave · poterat = was able",w:"manus miles obsto nemo discedo"},
+ {la:"Nēmō ibi nocte cōnsistere audet, nam perīculōsum est.",en:"No one dares to stand firm there at night, for it is dangerous.",g:"nēmō = no one · ibi = there · nocte = at night · cōnsistere = to stand firm · audet = dares · nam = for",w:"nemo ibi nox consisto audeo nam periculosus"},
+ {la:"Mīles invītus discessit, sed posteā praesidium deae petīvit.",en:"The soldier left unwillingly, but afterwards he sought the protection of the goddess.",g:"invītus = unwillingly · discessit = left · posteā = afterwards · praesidium deae = protection of the goddess · petīvit = sought",w:"miles invitus discedo postea praesidium dea peto"},
+ {la:"Postrēmō nēmō manuī mīlitum obstāre audēbat.",en:"Finally no one dared to block the band of soldiers.",g:"postrēmō = finally · manuī = the band (dative with obstō) · obstāre = to block · audēbat = dared",w:"postremo nemo manus miles obsto audeo"},
+ {la:"Nēmō caput deae sacrae frangere audēbat.",en:"No one dared to break the head of the sacred goddess.",g:"caput = head · deae sacrae = of the sacred goddess · frangere = to break · audēbat = dared",w:"nemo caput dea sacer frango audeo"},
+ {la:"Dea saevīre coepit, nam mīlitēs viam ad templum sacrum dēmōnstrāre recūsāvērunt.",en:"The goddess began to rage, for the soldiers refused to show the way to the sacred temple.",g:"saevīre = to rage · coepit = began · nam = for · viam = the way · dēmōnstrāre = to show · recūsāvērunt = they refused",w:"dea saevio coepi nam miles demonstro sacer recuso"},
+ {la:"Quō, mīles, nocte longā discēdis?",en:"Where are you going, soldier, in the long night?",g:"quō = where (to) · mīles = soldier · nocte longā = in the long night · discēdis = you are leaving",w:"quo miles nox longus discedo"},
+ {la:"Fortasse praesidium deae petere dēbēmus.",en:"Perhaps we ought to seek the protection of the goddess.",g:"fortasse = perhaps · praesidium deae = protection of the goddess · petere = to seek · dēbēmus = we ought",w:"fortasse praesidium dea peto"},
+ {la:"Pars mīlitum libenter pugnāvit, pars invīta.",en:"Part of the soldiers fought gladly, part unwillingly.",g:"pars = part · mīlitum = of the soldiers · libenter = gladly · pugnāvit = fought · invīta = unwillingly",w:"pars miles libenter invitus"},
+ {la:"Nam nēmō fortūnam frangere potest.",en:"For no one is able to break fortune.",g:"nam = for · nēmō = no one · fortūnam = fortune · frangere = to break · potest = is able",w:"nam nemo fortuna frango"},
+ {la:"Ibi aliquid sacrum cognōvimus.",en:"There we found out something sacred.",g:"ibi = there · aliquid sacrum = something sacred · cognōvimus = we found out",w:"ibi aliquid sacer cognosco"}
+];
+const GAPPLY = [
+ {q:"Explain the difference between audeō and audiō, with an English word for each.",en:"audeō, with an E, means to dare, which gives us audacious. audiō, with an I, means to hear, which gives us audio. One vowel changes the whole meaning, so check it every time.",pts:["audeō = to dare (audacious)","audiō = to hear (audio)","the E / I vowel is the clue"]},
+ {q:"Why does 'Manus mīlitum viae obstitit' use viae and not viam?",en:"obstō, to block, takes the dative for the thing being blocked. viae is the dative of via, so the sentence means a band of soldiers blocked the road. viam would be accusative, which obstō does not use.",pts:["obstō takes the dative","viae is dative","viam is accusative, so it's wrong here"]},
+ {q:"Use prefixes to explain discēdō, invītus and obstō.",en:"dis- means apart, so discēdō is to go apart, to leave. in- means not, so invītus is not wanting, unwilling. ob- means in the way, so obstō is to stand in the way, to block.",pts:["dis- = apart → leave","in- = not → unwilling","ob- = in the way → block"]},
+ {q:"Explain the difference between posteā and postrēmō.",en:"Both start with post, meaning after. posteā means afterwards, the next thing that happens. postrēmō means finally, the very last thing in a series.",pts:["post = after","posteā = afterwards (next)","postrēmō = finally (last)"]}
 ];
 
-/* ===== Helpers ===== */
-const N = VOCAB.length, MASTER = 4, POOL = 6;
-const KEY = "latinTrainer_v2";
+/* ================= Build the deck ================= */
+const ITEMS = [];
+VOCAB.forEach(v => ITEMS.push({kind:"v", u:v.u, la:v.la, forms:v.f, m:v.m, a:v.en, rb:[v.la], h:v.h, d:v.d, w:v.w,
+  q:`What does ${v.la} mean?`, key:null}));
+GRAMMAR.forEach(g => ITEMS.push(Object.assign({kind:"e"}, g)));
+const UNIT = Object.fromEntries(UNITS.map(u => [u.id, u]));
+
+/* ================= Helpers ================= */
+const DAY = 864e5, POOL = 10;
 const $ = id => document.getElementById(id);
 const main = $("main");
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const shuffle = a => {a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-const rnd = n => Math.floor(Math.random()*n);
-const range = n => [...Array(n).keys()];
-
-function fresh(){return {stage:"learn", order:shuffle(range(N)), intro:Array(N).fill(false), lvl:Array(N).fill(0),
-  miss:Array(N).fill(0), queue:[], last:-1, testQ:[], testMiss:[], fixQ:[], sentQ:[], sentDone:0, bonusQ:[], bonusDone:false,
-  st:{r:0,w:0,streak:0,best:0}};}
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));return s&&s.lvl&&s.lvl.length===N?s:null;}catch(e){return null;}}
-function save(){try{localStorage.setItem(KEY, JSON.stringify(S));}catch(e){}}
-let S = load() || fresh();
+const rint = (a,b) => a + Math.floor(Math.random()*(b-a+1));
+const now = () => Date.now() + (window.__clockOffset || 0);
+function dayStart(t){ const d=new Date(t); if(d.getHours()<4) d.setDate(d.getDate()-1); d.setHours(4,0,0,0); return d.getTime(); }
+function addDays(t,n){ const d=new Date(t); d.setDate(d.getDate()+n); d.setHours(4,0,0,0); return d.getTime(); }
+function dayKey(t){ const d=new Date(dayStart(t)); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function dateAt4(s){ const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d,4,0,0,0).getTime(); }
+function daysBetween(a,b){ return Math.round((b-a)/DAY); }
 
 function norm(s){
-  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
-    .replace(/[.!?"()]/g,"").replace(/\s+/g," ").trim()
-    .replace(/^(to |i |the |a |an )/,"").trim();
+  s = String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()
+    .replace(/['’\-]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+  let prev; do { prev=s; s=s.replace(/^(to|the|a|an|i) /,""); } while(s!==prev);
+  return s;
 }
-function lev(a,b){const m=[];for(let i=0;i<=a.length;i++)m[i]=[i];for(let j=0;j<=b.length;j++)m[0][j]=j;
-  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length];}
-function close(p,t){ if(p===t) return true; const tol=t.length>=9?2:(t.length>=5?1:0); return lev(p,t)<=tol; }
-function checkEn(input,w){
-  const parts=input.split(/[,;\/]| or /).map(norm).filter(Boolean);
-  return parts.some(p=>w.en.some(t=>close(p,norm(t))));
+function lev(a,b){ if(a===b) return 0; const m=[];for(let i=0;i<=a.length;i++)m[i]=[i];for(let j=0;j<=b.length;j++)m[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length]; }
+const NEG = ["in","un","non","im","il","ir"];
+function negFlip(x,y){ return NEG.some(p => x===p+y || y===p+x); }
+const ALL_ANS = new Set();
+ITEMS.forEach(it => { it.a.forEach(x=>ALL_ANS.add(norm(x))); (it.rb||[]).forEach(x=>ALL_ANS.add(norm(x))); });
+function matchOne(p, t){
+  if(!p || !t) return false;
+  if(p===t) return true;
+  if(/\d/.test(t) || /\d/.test(p)) return false;
+  if(negFlip(p,t)) return false;
+  const tol = t.length<5 ? 0 : t.length<=8 ? 1 : 2;
+  if(lev(p,t)<=tol) return true;
+  if(t.length>=4){ const pw=p.split(" "), tw=t.split(" ");
+    if(pw.length>tw.length && pw.length-tw.length<=3 && (" "+p+" ").includes(" "+t+" ")) return true; }
+  return false;
 }
-function checkLa(input,w){ return close(norm(input), norm(w.la)); }
+/* typed answer vs a list of accepted answers */
+function checkAns(typed, accepted){
+  const acc = accepted.map(norm);
+  const whole = norm(typed);
+  if(!whole) return false;
+  if(acc.includes(whole)) return true;
+  if(ALL_ANS.has(whole)) return false;            // exactly another item's answer = a look-alike, not a typo
+  const parts = String(typed).split(/[,;\/]| or /i).map(norm).filter(Boolean);
+  return parts.some(p => acc.includes(p) || (!ALL_ANS.has(p) && acc.some(t => matchOne(p,t))));
+}
+
+/* backward "explain it" grading */
+const STOP = new Set(("the a an and or but of to in on at for with by from as is are was were be been being this that these those which what who whom whose where when why how it its they them their there then than so such not no do does did can could would should will shall may might must have has had into about over under also very more most some any each other like just only your you our we he she his her him use used uses one two thing things word words means mean meaning so while same"+
+  " take takes taken").split(" "));
+const stem = w => w.slice(0,5);
+function keysFor(it){
+  if(it._keys) return it._keys;
+  const src = it.k ? it.k.join(" ") : it.q + " " + (it.d||"");
+  const ansStems = new Set(it.a.flatMap(x => norm(x).split(" ")).map(stem));
+  const seen = new Set(), out = [];
+  norm(src).split(" ").forEach(w => {
+    if(w.length<4 || STOP.has(w)) return; const s=stem(w);
+    if(ansStems.has(s) || seen.has(s)) return; seen.add(s); out.push({w, s});
+  });
+  return it._keys = out;
+}
+function gradeExplain(it, typed){
+  const words = norm(typed).split(" ").filter(w => w.length>=3 && !STOP.has(w));
+  const keys = keysFor(it);
+  const hits = keys.filter(k => words.some(t => stem(t)===k.s || (t.length>=6 && k.w.length>=6 && lev(t,k.w)<=1)));
+  return {hits, keys, need2:Math.min(2,keys.length), need3:Math.min(3,keys.length)};
+}
 function overlap(typed, model){
-  const toks=s=>norm(s).replace(/[,;:]/g," ").split(" ").filter(Boolean);
-  const a=toks(typed), b=toks(model.replace(/\(.*?\)/g,""));
-  let hit=0; b.forEach(t=>{ if(a.some(x=>close(x,t))) hit++; });
-  return b.length? hit/b.length : 0;
+  const toks = s => norm(s.replace(/\(.*?\)/g,"")).split(" ").filter(Boolean);
+  const a = toks(typed), b = toks(model); if(!b.length) return 0;
+  let hit=0; b.forEach(t => { if(a.some(x => x===t || (t.length>=5 && lev(x,t)<=1))) hit++; });
+  return hit/b.length;
 }
-function right(){S.st.r++;S.st.streak++;S.st.best=Math.max(S.st.best,S.st.streak);}
-function wrong(i){S.st.w++;S.st.streak=0;if(i!=null)S.miss[i]++;}
-function meaning(w){return w.en.filter(e=>!e.includes("'")&&e!=="noone"&&e!=="no-one").join(", ");}
-
-function info(w){
-  return `<div class="info"><i>${w.la}</i> = <b>${meaning(w)}</b></div>`+
-    (w.d?`<div class="deriv">English words from it: ${w.d}</div>`:"")+
-    `<div class="hook">💡 ${w.h}</div>`+(w.w?`<div class="warn">⚠️ ${w.w}</div>`:"");
-}
-function shake(el){el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");}
-function nextBtn(box,label){
-  const r=document.createElement("div");r.className="row";
-  r.innerHTML=`<button class="primary" id="nx">${label||"Next →"}</button>`;
-  box.appendChild(r);const b=$("nx");b.onclick=render;setTimeout(()=>b.focus(),0);
-}
-/* Type-it-out: after a miss, you copy the right answer before moving on */
-function typeOut(box, prompt, target, isOk, done){
-  const d=document.createElement("div");d.className="typeout";
-  d.innerHTML=`<p>✍️ <b>Type it out</b> to lock it in: ${prompt}</p>
-    <input type="text" id="to" placeholder="${esc(target)}" autocomplete="off" autocapitalize="off" spellcheck="false">
-    <div class="err" id="toErr"></div>`;
-  box.appendChild(d);
-  const inp=$("to");setTimeout(()=>inp.focus(),0);
-  inp.onkeydown=e=>{ if(e.key!=="Enter") return;
-    if(isOk(inp.value)){inp.disabled=true;done();}
-    else{ $("toErr").textContent=`Not quite. Type: ${target}`; shake(inp); }
-  };
+function highlight(text, hits){
+  const ss = new Set(hits.map(h=>h.s));
+  return esc(text).split(/(\s+)/).map(w => { const n=norm(w); return n && ss.has(stem(n)) ? `<mark>${w}</mark>` : w; }).join("");
 }
 
-/* ===== HUD / steps ===== */
-function hud(){
-  const order=["learn","test","sent","bonus"];
-  const cur = S.stage==="fix"?"test":S.stage==="done"?"bonus":S.stage;
-  order.forEach((k,i)=>{ const el=$("st-"+k); const ci=order.indexOf(cur);
-    el.className="step"+(k===cur&&S.stage!=="done"?" on":(i<ci||(S.stage==="done"&&(k!=="bonus"||S.bonusDone))?" done":"")); });
-  const m=S.lvl.filter(l=>l>=MASTER).length, tot=S.st.r+S.st.w;
-  $("hud").innerHTML=`<span>Mastered <b>${m}/${N}</b></span><span>🔥 Streak <b>${S.st.streak}</b></span>
-    <span>Best <b>${S.st.best}</b></span><span>Accuracy <b>${tot?Math.round(S.st.r/tot*100):0}%</b></span>`;
-  $("listBtn").style.display = (S.stage==="test")?"none":"";
+/* ================= State ================= */
+function freshState(){
+  const c = {};
+  ITEMS.forEach((_,i) => { c[i+"|f"]={l:0,nx:0,m:0,sch:null}; c[i+"|r"]={l:0,nx:0,m:0,sch:null}; });
+  return {v:2, c, intro:{}, hooks:{}, miss:{}, st:{r:0,w:0,streak:0,best:0}, day:{last:null,n:0,best:0}, tests:[], sel:["A"], stage:{}, step:0};
 }
-function toughest(){
-  const t=range(N).filter(i=>S.miss[i]>0).sort((a,b)=>S.miss[b]-S.miss[a]).slice(0,6);
-  return t.length?`<p class="deriv">Your toughest words:</p><div class="tough">${t.map(i=>`<span>${VOCAB[i].la} ×${S.miss[i]}</span>`).join("")}</div>`:"";
-}
-function render(){
-  hud();
-  ({learn,test,fix,sent,bonus,done})[S.stage]();
-}
-
-/* ===== Stage 1: Learn (new word → multiple choice → typed → typed again later) ===== */
-function chips(){
-  return `<div class="grid">${VOCAB.map((v,k)=>`<div class="chip l${S.intro[k]?Math.min(S.lvl[k],4):0}">${v.la}</div>`).join("")}</div>
-  <div class="legend">dashed = not seen yet · gray = learning · gold = recognized · green outline = typed it · solid green = mastered</div>`;
-}
-function reinsert(i){
-  const l=S.lvl[i]; if(l>=MASTER) return;
-  const pos = l<=1 ? 2+rnd(2) : l===2 ? 3+rnd(3) : 6+rnd(4);
-  S.queue.splice(Math.min(S.queue.length,pos),0,i);
-}
-function learn(){
-  const mastered=S.lvl.filter(l=>l>=MASTER).length;
-  if(mastered===N){
-    main.innerHTML=`<div class="center"><div class="label">Learning complete</div>
-      <p class="big">All ${N} words mastered! 🎉</p>${toughest()}
-      <p>Final test: all ${N} words, shuffled, typed, no feedback until the end. You need a perfect score to unlock sentences.</p>
-      <div class="row" style="justify-content:center"><button class="primary" id="go">Start final test</button></div></div>`;
-    $("go").onclick=()=>{S.stage="test";S.testQ=shuffle(range(N));S.testMiss=[];save();render();};
-    return;
-  }
-  const active=range(N).filter(i=>S.intro[i]&&S.lvl[i]<MASTER);
-  if(active.length<POOL && S.order.some(i=>!S.intro[i])) return introCard(S.order.find(i=>!S.intro[i]));
-  S.queue=S.queue.filter(i=>S.intro[i]&&S.lvl[i]<MASTER);
-  if(!S.queue.length){S.queue=shuffle(active); if(S.queue[0]===S.last&&S.queue.length>1)S.queue.push(S.queue.shift());}
-  const i=S.queue.shift(); S.last=i; save();
-  if(S.lvl[i]<=1) mcCard(i); else typedCard(i);
-}
-
-function introCard(i){
-  const w=VOCAB[i];
-  main.innerHTML=`<div class="label new">✨ New word</div>
-    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
-    <div class="meaning">= <b>${meaning(w)}</b></div>
-    ${w.d?`<div class="deriv">English words from it: ${w.d}</div>`:""}
-    <div class="hook">💡 ${w.h}</div>${w.w?`<div class="warn">⚠️ ${w.w}</div>`:""}
-    <div class="typeout"><p>✍️ Type the meaning once to lock it in:</p>
-      <input type="text" id="ans" placeholder="${esc(w.en[0])}" autocomplete="off" autocapitalize="off" spellcheck="false">
-      <div class="err" id="err"></div></div>
-    ${chips()}`;
-  const ans=$("ans");ans.focus();
-  ans.onkeydown=e=>{ if(e.key!=="Enter")return;
-    if(checkEn(ans.value,w)){S.intro[i]=true;S.lvl[i]=1;S.queue.splice(Math.min(S.queue.length,2),0,i);save();render();}
-    else{$("err").textContent=`Type: ${w.en[0]}`;shake(ans);}
-  };
-}
-
-function mcCard(i){
-  const w=VOCAB[i];
-  const others=shuffle(range(N).filter(k=>k!==i)).slice(0,3).map(k=>VOCAB[k].en[0]);
-  const opts=shuffle([w.en[0],...others]);
-  main.innerHTML=`<div class="label">Pick the meaning · step 1 of 3</div>
-    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
-    <div class="mc">${opts.map((o,k)=>`<button data-o="${esc(o)}"><span class="k">${k+1}</span>${esc(o)}</button>`).join("")}</div>
-    <div id="fbw"></div>${chips()}`;
-  let done=false;
-  const pick=btn=>{ if(done)return; done=true;
-    const ok=btn.dataset.o===w.en[0];
-    main.querySelectorAll(".mc button").forEach(b=>{b.disabled=true;if(b.dataset.o===w.en[0])b.classList.add("right");});
-    if(!ok) btn.classList.add("wrong");
-    const fb=document.createElement("div");fb.className="fb "+(ok?"good":"bad");
-    if(ok){right();S.lvl[i]=2;}else{wrong(i);S.lvl[i]=1;}
-    reinsert(i);save();hud();
-    fb.innerHTML=`<div class="head">${ok?"Correct! Next time you'll type it.":"Not quite."}</div>${info(w)}`;
-    $("fbw").appendChild(fb);
-    if(ok) nextBtn(fb); else typeOut(fb,`<b>${esc(w.en[0])}</b>`,w.en[0],v=>checkEn(v,w),()=>nextBtn(fb));
-  };
-  main.querySelectorAll(".mc button").forEach(b=>b.onclick=()=>pick(b));
-  document.onkeydown=e=>{ if(!done&&/^[1-4]$/.test(e.key)) pick(main.querySelectorAll(".mc button")[+e.key-1]); };
-}
-
-function typedCard(i){
-  const w=VOCAB[i], step=S.lvl[i]===2?2:3;
-  main.innerHTML=`<div class="label">Type the English · step ${step} of 3</div>
-    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
-    <input type="text" id="ans" placeholder="Type the English meaning" autocomplete="off" autocapitalize="off" spellcheck="false">
-    <div class="row"><button class="primary" id="sub">Check</button><button id="idk">I don't know</button></div>
-    <div id="fbw"></div>${chips()}`;
-  const ans=$("ans");ans.focus();let done=false;
-  const finish=ok=>{ done=true; $("sub").disabled=true;$("idk").disabled=true;ans.disabled=true;
-    const typed=ans.value.trim();
-    if(ok){right();S.lvl[i]++;}else{wrong(i);S.lvl[i]=Math.max(1,S.lvl[i]-1);}
-    reinsert(i);save();hud();
-    const fb=document.createElement("div");fb.className="fb "+(ok?"good":"bad");
-    const head= ok ? (S.lvl[i]>=MASTER?"Mastered! ⭐":"Correct! It'll come back once more to make sure.")
-                   : (S.lvl[i]===1?"Not quite. Back to multiple choice for this one.":"Not quite.");
-    fb.innerHTML=`<div class="head">${head}</div>${!ok&&typed?`<div class="you">You typed: “${esc(typed)}”</div>`:""}${info(w)}`;
-    $("fbw").appendChild(fb);
-    if(ok) nextBtn(fb); else typeOut(fb,`<b>${esc(w.en[0])}</b>`,w.en[0],v=>checkEn(v,w),()=>nextBtn(fb));
-  };
-  $("sub").onclick=()=>{ if(!done&&ans.value.trim()) finish(checkEn(ans.value,w)); };
-  $("idk").onclick=()=>{ if(!done) finish(false); };
-  ans.onkeydown=e=>{ if(e.key==="Enter") $("sub").click(); };
-}
-
-/* ===== Stage 2: Final test ===== */
-function test(){
-  if(!S.testQ.length){
-    if(S.testMiss.length){
-      main.innerHTML=`<div class="center"><div class="label">Final test results</div>
-        <p class="big">${N-S.testMiss.length} / ${N}</p>
-        <p>Missed: ${S.testMiss.map(i=>`<i>${VOCAB[i].la}</i>`).join(", ")}</p>
-        <p>You'll type each one out, then practice them again before retaking the test.</p>
-        <div class="row" style="justify-content:center"><button class="primary" id="go">Fix my misses</button></div></div>`;
-      $("go").onclick=()=>{S.fixQ=S.testMiss.slice();S.testMiss.forEach(i=>S.lvl[i]=2);S.testMiss=[];S.queue=[];S.stage="fix";save();render();};
-    } else {
-      main.innerHTML=`<div class="center"><div class="label">Final test results</div>
-        <p class="big">${N} / ${N}. Perfect! 🏛️</p><p>You know every word. Sentences unlocked.</p>
-        <div class="row" style="justify-content:center"><button class="primary" id="go">Go to sentences</button></div></div>`;
-      $("go").onclick=()=>{S.stage="sent";S.sentQ=shuffle(range(SENTENCES.length));S.sentDone=0;save();render();};
+function migrate(s){
+  if(!s || typeof s!=="object" || !s.c) return null;
+  const f = freshState();
+  for(const k in f) if(s[k]===undefined) s[k]=f[k];
+  for(const id in f.c){
+    const c = s.c[id] = Object.assign({}, f.c[id], s.c[id]||{});
+    if(c.sch){ // older saves: fill in missing schedule fields
+      c.sch.ivl = Math.max(1, Math.min(365, +c.sch.ivl || 1));
+      c.sch.ease = Math.max(1.3, Math.min(3, +c.sch.ease || 2.5));
+      c.sch.lapses = +c.sch.lapses || 0;
+      c.sch.due = +c.sch.due ? dayStart(+c.sch.due) : addDays(dayStart(now()), c.sch.ivl);
     }
-    return;
   }
-  const i=S.testQ[0], w=VOCAB[i], n=N-S.testQ.length;
-  main.innerHTML=`<div class="label">Final test · ${n+1} of ${N} · results at the end</div>
-    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div>
-    <input type="text" id="ans" placeholder="Type the English meaning" autocomplete="off" autocapitalize="off" spellcheck="false">
-    <div class="row"><button class="primary" id="sub">Submit</button><button id="idk">I don't know</button></div>
-    <div class="bar"><div style="width:${n/N*100}%"></div></div>`;
-  const ans=$("ans");ans.focus();
-  const go=ok=>{ if(ok)right();else{wrong(i);S.testMiss.push(i);} S.testQ.shift();save();render(); };
-  $("sub").onclick=()=>{ if(ans.value.trim()) go(checkEn(ans.value,w)); };
-  $("idk").onclick=()=>go(false);
-  ans.onkeydown=e=>{ if(e.key==="Enter") $("sub").click(); };
+  if(!Array.isArray(s.sel) || !s.sel.length) s.sel=["A"];
+  s.sel = s.sel.filter(u => UNIT[u]); if(!s.sel.length) s.sel=["A"];
+  s.v = 2; return s;
 }
-function fix(){
-  if(!S.fixQ.length){S.stage="learn";save();return render();}
-  const i=S.fixQ[0], w=VOCAB[i];
-  main.innerHTML=`<div class="label">Fix your misses · ${S.fixQ.length} left</div>
-    <p class="prompt">${w.la}</p><div class="forms">${w.f||""}</div><div class="fb bad" id="fb">${info(w)}</div>`;
-  typeOut($("fb"),`<b>${esc(w.en[0])}</b>`,w.en[0],v=>checkEn(v,w),()=>{S.fixQ.shift();save();nextBtn($("fb"));});
+function load(){ try { return migrate(JSON.parse(localStorage.getItem(KEY))); } catch(e){ return null; } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+let S = load() || freshState();
+let SS = {mode:"home"};   // session (not saved)
+
+const selKey = () => S.sel.slice().sort().join("");
+const itemsOf = units => ITEMS.map((_,i)=>i).filter(i => units.includes(ITEMS[i].u));
+const selItems = () => itemsOf(S.sel);
+const cardsOf = items => items.flatMap(i => [i+"|f", i+"|r"]);
+const itemOf = id => +id.split("|")[0];
+const dirOf = id => id.split("|")[1];
+const isMastered = id => S.c[id].l>=4;
+
+/* ================= Scheduling ================= */
+function clampTests(){
+  const t0 = now();
+  S.tests = S.tests.filter(t => dateAt4(t.date) >= dayStart(t0));
+  S.tests.forEach(t => {
+    const lim = addDays(dateAt4(t.date), -1);
+    if(lim <= t0) return;
+    cardsOf(itemsOf(t.units)).forEach(id => { const s=S.c[id].sch; if(s && s.due>lim) s.due=lim; });
+  });
+}
+function scheduleNew(id){
+  const c = S.c[id];
+  c.sch = {ivl:1, ease:Math.max(1.5, 2.5-0.15*c.m), lapses:0, due:addDays(dayStart(now()),1)};
+  clampTests();
+}
+function reviewUpdate(id, ok, sure){
+  const s = S.c[id].sch; if(!s) return;
+  if(ok && sure){ s.ivl = s.ivl<=1 ? 3 : Math.round(s.ivl*s.ease*(0.95+Math.random()*0.1)); s.ease=Math.min(3, s.ease+0.05); }
+  else if(ok){ s.ivl = Math.max(1, Math.round(s.ivl*1.2)); s.ease=Math.max(1.3, s.ease-0.15); }
+  else { s.lapses++; s.ease=Math.max(1.3, s.ease-0.2); s.ivl=1; }
+  s.ivl = Math.min(365, Math.max(1, s.ivl));
+  s.due = addDays(dayStart(now()), s.ivl);
+  clampTests();
+}
+const dueCards = () => Object.keys(S.c).filter(id => S.c[id].sch && S.c[id].sch.due <= now());
+
+/* ================= Stats ================= */
+function tally(ok, it){
+  if(ok){ S.st.r++; S.st.streak++; S.st.best=Math.max(S.st.best,S.st.streak); }
+  else { S.st.w++; S.st.streak=0; if(it>=0) S.miss[it]=(S.miss[it]||0)+1; }
+  const k = dayKey(now());
+  if(S.day.last!==k){ S.day.n = (S.day.last===dayKey(now()-DAY)) ? S.day.n+1 : 1; S.day.last=k; S.day.best=Math.max(S.day.best||0,S.day.n); }
+}
+function dailyStreak(){ const k=dayKey(now()); return (S.day.last===k || S.day.last===dayKey(now()-DAY)) ? S.day.n : 0; }
+
+/* ================= Rendering helpers ================= */
+let KH = null;
+document.addEventListener("keydown", e => {
+  if(e.repeat || document.querySelector(".overlay.open")) return;
+  if(KH) KH(e);
+});
+function show(html, kh, focus){
+  main.innerHTML = html; KH = kh || null;
+  hud();
+  if(focus){ const el=main.querySelector(focus); if(el) setTimeout(()=>el.focus(),0); }
+}
+function enterTo(fn){ return e => { if(e.key==="Enter"){ e.preventDefault(); fn(e.shiftKey); } }; }
+function bind(sel, fn){ const el=main.querySelector(sel); if(el) el.onclick=fn; }
+function shake(el){ el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+
+function hookHTML(i){
+  const it=ITEMS[i];
+  let s = `<div class="hook">💡 ${esc(it.h)}</div>`;
+  if(S.hooks[i]) s += `<div class="hook">✍️ Your hook: ${esc(S.hooks[i])}</div>`;
+  return s;
+}
+const whyHTML = i => ITEMS[i].d ? `<div class="why">🤔 Why it matters: ${esc(ITEMS[i].d)}</div>` : "";
+const warnHTML = i => ITEMS[i].w ? `<div class="warn">⚠️ ${esc(ITEMS[i].w)}</div>` : "";
+const fullIdea = it => it.kind==="v" ? `${it.la} = ${it.m}` : `${it.q} → ${it.a[0]}. ${it.d||""}`;
+function fwdAnswer(it){ return it.kind==="v" ? it.a.slice(0,3).join(", ") : it.a[0]; }
+function revAnswer(it){ return it.kind==="v" ? it.la : fullIdea(it); }
+function promptHTML(id, cue){
+  const it = ITEMS[itemOf(id)], d = dirOf(id);
+  const cueH = cue ? `<div class="cue">Section: ${esc(UNIT[it.u].title)}</div>` : "";
+  if(d==="f"){
+    if(it.kind==="v") return cueH+`<div class="label">Latin → English</div><div class="prompt">${esc(it.la)}</div><div class="forms">${esc(it.forms)}</div>`;
+    return cueH+`<div class="label">Question</div><div class="q">${esc(it.q)}</div>`;
+  }
+  if(it.kind==="v") return cueH+`<div class="label">English → Latin</div><div class="meaning">${esc(it.m)}</div>`;
+  return cueH+`<div class="label">Explain it</div><div class="prompt">${esc(it.a[0])}</div><div class="forms">What question does this answer, and why? Use your own words.</div>`;
+}
+const isExplain = id => ITEMS[itemOf(id)].kind==="e" && dirOf(id)==="r";
+function confButtons(){
+  return `<div class="row"><button class="primary" id="sure">Sure<span class="kbd">Enter</span></button><button id="guess">Just guessing<span class="kbd">Shift+Enter</span></button></div><div class="err" id="err"></div>`;
+}
+function inputHTML(id, ph){
+  return isExplain(id) ? `<textarea id="ans" placeholder="${esc(ph||"Explain in your own words…")}"></textarea>` : `<input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${esc(ph||"Type your answer")}">`;
+}
+/* grade a typed answer for a card; returns {ok, g} */
+function gradeCard(id, typed){
+  const it = ITEMS[itemOf(id)];
+  if(dirOf(id)==="f") return {ok:checkAns(typed, it.a)};
+  if(it.kind==="v") return {ok:checkAns(typed, it.rb)};
+  const g = gradeExplain(it, typed); return {ok:g.hits.length>=g.need2, g};
 }
 
-/* ===== Stage 3: Sentences ===== */
-function sent(){
-  const T=SENTENCES.length;
-  if(!S.sentQ.length){S.stage="done";save();return render();}
-  const i=S.sentQ[0], s=SENTENCES[i];
-  main.innerHTML=`<div class="label">Translate into English</div>
-    <p class="sentence">${s.la}</p>
-    <textarea id="ans" placeholder="Your translation"></textarea>
-    <div class="row"><button class="primary" id="sub">Check</button></div>
-    <div id="fbw"></div>
-    <div class="bar"><div style="width:${S.sentDone/T*100}%"></div></div>
-    <div class="stats"><span>${S.sentDone} / ${T} done</span><span>sentences you miss come back later</span></div>`;
-  const ans=$("ans");ans.focus();
-  ans.onkeydown=e=>{ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("sub").click();} };
-  $("sub").onclick=()=>{
-    if(!ans.value.trim())return;
-    $("sub").disabled=true;ans.disabled=true;
-    const fb=document.createElement("div");fb.className="fb good";
-    fb.innerHTML=`<div class="you">You wrote: “${esc(ans.value.trim())}”</div>
-      <div><b>Model translation:</b> ${s.en}</div>
-      <div class="gloss"><b>Word by word:</b><br>${s.g.split(" · ").map(x=>{const [a,b]=x.split(" = ");return `<span><i>${a}</i> = ${b}</span>`;}).join("")}</div>
-      <p class="deriv" style="margin-top:10px">Same meaning counts, even if you worded it differently. Be honest!</p>
-      <div class="row"><button class="primary" id="ok">✅ I got it</button><button id="no">❌ I missed something</button></div>`;
-    $("fbw").appendChild(fb);
-    $("ok").onclick=()=>{right();S.sentQ.shift();S.sentDone++;save();render();};
-    $("no").onclick=()=>{
-      wrong(null);$("ok").disabled=true;$("no").disabled=true;fb.className="fb bad";
-      typeOut(fb,"the correct translation",s.en.replace(/\(.*?\)/g,"").replace(/\s+/g," ").trim(),v=>overlap(v,s.en)>=0.8,()=>{
-        S.sentQ.shift();S.sentQ.splice(Math.min(S.sentQ.length,3),0,i);save();nextBtn(fb);
-      });
-    };
-  };
+/* ================= HUD / steps / below ================= */
+function hud(){
+  const ids = cardsOf(selItems());
+  const m = ids.filter(isMastered).length, tot=S.st.r+S.st.w;
+  $("hud").innerHTML = `<span>Mastered <b>${m}/${ids.length}</b> cards</span><span>🔥 <b>${S.st.streak}</b></span><span>Best <b>${S.st.best}</b></span><span>Accuracy <b>${tot?Math.round(100*S.st.r/tot)+"%":"—"}</b></span>`;
+  const order=["learn","test","apply","hub"], labels=["Learn ⇄","Final test","Apply","Hub"];
+  const showSteps = ["learn","intro","test","fix","apply","hub"].includes(SS.mode);
+  if(!showSteps){ $("steps").innerHTML=""; }
+  else {
+    const cur = SS.mode==="intro"?"learn":SS.mode==="fix"?"test":SS.mode;
+    const ci = order.indexOf(cur);
+    $("steps").innerHTML = order.map((k,i)=>`<span class="step ${i===ci?"on":i<ci?"done":""}">${labels[i]}</span>`).join("");
+  }
+  below();
+}
+function lvlColor(l){ return l>=4?"var(--l4)":l===3?"var(--l3)":l===2?"var(--l2)":l===1?"var(--l1)":"transparent"; }
+function below(){
+  const hideList = SS.mode==="test";
+  const its = selItems();
+  const chips = its.map(i => {
+    const it=ITEMS[i], lf=S.c[i+"|f"].l, lr=S.c[i+"|r"].l;
+    const lab = it.kind==="v" ? it.la : it.a[0];
+    return `<div class="chip" title="${esc(lab)}" style="background:linear-gradient(90deg,${lvlColor(lf)} 50%,${lvlColor(lr)} 50%)${S.intro[i]?"":";border-style:dashed;opacity:.6"}"><span>${esc(lab)}</span></div>`;
+  }).join("");
+  const tough = its.filter(i=>S.miss[i]>0).sort((a,b)=>S.miss[b]-S.miss[a]).slice(0,6);
+  $("below").innerHTML = (hideList?"":`<div class="grid">${chips}</div>
+    <div class="legend"><span>Left half = forwards, right half = backwards:</span>
+    <span><i class="sw" style="background:var(--l1)"></i>learning</span><span><i class="sw" style="background:var(--l2)"></i>typing</span>
+    <span><i class="sw" style="background:var(--l3)"></i>almost</span><span><i class="sw" style="background:var(--l4)"></i>mastered</span></div>`)
+    + (tough.length && !hideList ? `<div class="legend" style="margin-top:12px">Toughest:</div><div class="tough">${tough.map(i=>`<span>${esc(ITEMS[i].kind==="v"?ITEMS[i].la:ITEMS[i].a[0])} ×${S.miss[i]}</span>`).join("")}</div>` : "");
+  $("listBtn").style.display = hideList ? "none" : "";
 }
 
-/* ===== Stage 4: Bonus English → Latin ===== */
-function bonus(){
-  if(!S.bonusQ.length){S.bonusDone=true;S.stage="done";save();return render();}
-  const i=S.bonusQ[0], w=VOCAB[i], n=N-S.bonusQ.length;
-  main.innerHTML=`<div class="label">Bonus · English → Latin · ${S.bonusQ.length} left</div>
-    <p class="prompt" style="font-style:normal">${meaning(w)}</p><div class="forms">Type the Latin word (macrons optional)</div>
-    <input type="text" id="ans" placeholder="Latin word" autocomplete="off" autocapitalize="off" spellcheck="false">
-    <div class="row"><button class="primary" id="sub">Check</button><button id="idk">I don't know</button></div>
-    <div id="fbw"></div>
-    <div class="bar"><div style="width:${n/N*100}%"></div></div>`;
-  const ans=$("ans");ans.focus();let done=false;
-  const finish=ok=>{ done=true;$("sub").disabled=true;$("idk").disabled=true;ans.disabled=true;
-    const fb=document.createElement("div");fb.className="fb "+(ok?"good":"bad");
-    S.bonusQ.shift();
-    if(ok)right();else{wrong(i);S.bonusQ.splice(Math.min(S.bonusQ.length,3),0,i);}
-    save();hud();
-    fb.innerHTML=`<div class="head">${ok?"Correct!":"Not quite."}</div>${!ok&&ans.value.trim()?`<div class="you">You typed: “${esc(ans.value.trim())}”</div>`:""}
-      <div class="info"><b><i>${w.la}</i></b>${w.f?`, ${w.f}`:""}</div><div class="hook">💡 ${w.h}</div>`;
-    $("fbw").appendChild(fb);
-    if(ok) nextBtn(fb); else typeOut(fb,`<b><i>${w.la}</i></b>`,w.la.replace("?",""),v=>checkLa(v,w),()=>nextBtn(fb));
-  };
-  $("sub").onclick=()=>{ if(!done&&ans.value.trim()) finish(checkLa(ans.value,w)); };
-  $("idk").onclick=()=>{ if(!done) finish(false); };
-  ans.onkeydown=e=>{ if(e.key==="Enter") $("sub").click(); };
+/* ================= Home ================= */
+function home(){
+  SS = {mode:"home"}; clampTests(); save();
+  const due = dueCards().length;
+  const t0 = dayStart(now());
+  let banners = "";
+  S.tests.forEach((t,ti) => {
+    const d = daysBetween(t0, dateAt4(t.date));
+    if(d===1 || d===2) banners += `<div class="banner test"><span>📝 Test ${d===1?"tomorrow":"in 2 days"} (${t.units.map(u=>UNIT[u].title.split(" · ")[0]).join(", ")})</span><button class="small primary" data-cram="${ti}">⚡ Cram</button></div>`;
+  });
+  if(due) banners += `<div class="banner rev"><span>🔁 ${due} card${due>1?"s":""} due for review</span><button class="small primary" id="revBtn">Review now</button></div>`;
+  else {
+    const next = Object.values(S.c).filter(c=>c.sch).map(c=>c.sch.due).sort((a,b)=>a-b)[0];
+    if(next) { const d=Math.max(1,daysBetween(t0,next)); banners += `<div class="banner calm"><span>✅ All caught up. Next review in ${d} day${d>1?"s":""}.</span></div>`; }
+  }
+  const units = UNITS.map(u => {
+    const ids = cardsOf(itemsOf([u.id])), m = ids.filter(isMastered).length;
+    return `<label class="unit"><input type="checkbox" value="${u.id}" ${S.sel.includes(u.id)?"checked":""}><div class="grow"><div class="t">${esc(u.title)}</div><div class="s">${esc(u.pages)} · ${m}/${ids.length} cards mastered</div><div class="bar"><div style="width:${100*m/ids.length}%"></div></div></div></label>`;
+  }).join("");
+  const tests = S.tests.map((t,i)=>`<span>📅 ${esc(t.date)}: ${t.units.join(", ")}<button data-del="${i}" aria-label="Remove">✕</button></span>`).join("");
+  show(`<div class="pills"><span class="pill">📅 Daily streak: ${dailyStreak()} day${dailyStreak()===1?"":"s"}</span><span class="pill">Best: ${S.day.best||0}</span></div>
+    ${banners}
+    <h2>Pick what to study</h2>
+    <div class="units">${units}</div>
+    <div class="row"><button class="primary" id="learnBtn">Learn ⇄<span class="kbd">Enter</span></button><button id="cramBtn">⚡ Cram</button></div>
+    <div style="margin-top:18px" class="sub">📅 Have a test? Set its date for the selected units and reviews will be finished in time.</div>
+    <div class="row"><input type="date" id="testDate"><button class="small" id="setTest">Set test date</button></div>
+    <div class="tests">${tests}</div><div class="err" id="err"></div>`,
+    e => { if(e.key==="Enter" && e.target.id!=="testDate"){ e.preventDefault(); startLearn(); } });
+  main.querySelectorAll(".unit input").forEach(cb => cb.onchange = () => {
+    const sel = [...main.querySelectorAll(".unit input:checked")].map(x=>x.value);
+    if(!sel.length){ cb.checked=true; return; }
+    S.sel = sel; save(); hud();
+  });
+  bind("#learnBtn", startLearn);
+  bind("#cramBtn", cramSetup);
+  bind("#revBtn", () => startReview(false));
+  main.querySelectorAll("[data-cram]").forEach(b => b.onclick = () => { S.sel = S.tests[+b.dataset.cram].units.slice(); save(); cramSetup(); });
+  main.querySelectorAll("[data-del]").forEach(b => b.onclick = e => { e.preventDefault(); S.tests.splice(+b.dataset.del,1); save(); home(); });
+  bind("#setTest", () => {
+    const v = $("testDate").value;
+    if(!v){ $("err").textContent="Pick a date first."; return; }
+    if(dateAt4(v) < dayStart(now())){ $("err").textContent="That date is in the past."; return; }
+    S.tests = S.tests.filter(t => !(t.date===v));
+    S.tests.push({date:v, units:S.sel.slice().sort()});
+    clampTests(); save(); home();
+  });
 }
 
-/* ===== Hub after sentences ===== */
-function done(){
-  main.innerHTML=`<div class="center"><div class="label">${S.bonusDone?"Everything complete":"Sentences complete"}</div>
-    <p class="big">${S.bonusDone?"You crushed it both ways. Optime! 🏆":`All ${SENTENCES.length} sentences done. Optime! 🎉`}</p>
-    ${toughest()}
+/* ================= Learn ================= */
+function startLearn(){
+  const st = S.stage[selKey()] || "learn";
+  if(st==="apply") return startApply();
+  if(st==="hub") return hub();
+  SS = {mode:"learn", last:null}; learnNext();
+}
+function pickLearn(){
+  const its = selItems(), active = [];
+  its.forEach(i => { if(S.intro[i]) for(const d of ["f","r"]){ const id=i+"|"+d; if(S.c[id].l<4) active.push(id); } });
+  const fresh = its.filter(i => !S.intro[i]);
+  if(!active.length && !fresh.length) return {done:true};
+  const ready = active.filter(id => S.c[id].nx<=S.step && id!==SS.last).sort((a,b)=>S.c[a].nx-S.c[b].nx);
+  if(fresh.length && (active.length<4 || (!ready.length && active.length<POOL))) return {intro:fresh[0]};
+  if(ready.length) return {id:ready[0]};
+  const rest = active.filter(id => id!==SS.last).sort((a,b)=>S.c[a].nx-S.c[b].nx);
+  if(rest.length){ S.step = Math.max(S.step, S.c[rest[0]].nx); return {id:rest[0]}; }
+  return {id:active[0]};
+}
+function learnNext(){
+  SS.mode = "learn";
+  const p = pickLearn();
+  if(p.done) return learnDone();
+  if(p.intro!=null) return introGuess(p.intro);
+  SS.last = p.id; showCard(p.id, "learn");
+}
+function learnDone(){
+  SS.mode="learn";
+  const n = cardsOf(selItems()).length;
+  show(`<div class="center"><div class="big">🎉 All ${n} cards mastered, both directions!</div><p>Next: the final test. Every card, shuffled, no hints. You need a perfect score to unlock Apply.</p>
+    <div class="row" style="justify-content:center"><button class="primary" id="go">Start final test<span class="kbd">Enter</span></button></div></div>`,
+    enterTo(startTest));
+  bind("#go", startTest);
+}
+
+/* --- new item intro: guess → reveal → type once --- */
+function introGuess(i){
+  SS.mode="intro"; SS.cur=i+"|f";
+  const it = ITEMS[i];
+  show(`<div class="label new">New ${it.kind==="v"?"word":"idea"} · guess first (blank is fine)</div>${promptHTML(i+"|f").replace(/<div class="label">.*?<\/div>/,"")}
+    <input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Your best guess, or leave blank">
+    <div class="row"><button class="primary" id="go">Reveal<span class="kbd">Enter</span></button></div>`,
+    enterTo(() => introReveal(i, $("ans").value)), "#ans");
+  bind("#go", () => introReveal(i, $("ans").value));
+}
+function introReveal(i, guess){
+  const it = ITEMS[i];
+  const right = guess.trim() && checkAns(guess, it.a);
+  const both = it.kind==="v" ? `${esc(it.la)} → ${esc(it.m)} and ${esc(it.m)} → ${esc(it.la)}` : `the question → <b>${esc(it.a[0])}</b>, and <b>${esc(it.a[0])}</b> → explaining it`;
+  show(`<div class="label new">New ${it.kind==="v"?"word":"idea"}</div>${promptHTML(i+"|f").replace(/<div class="label">.*?<\/div>/,"")}
+    <div class="fb ${right?"good":"good"}"><div class="head">${guess.trim()?(right?"✓ Great guess!":"Here's the answer"):"Here's the answer"}</div>
+      ${guess.trim()&&!right?`<div class="you">You guessed: ${esc(guess)}</div>`:""}
+      <div class="meaning" style="margin:0">${esc(fwdAnswer(it))}</div></div>
+    ${hookHTML(i)}${whyHTML(i)}${warnHTML(i)}
+    <div class="main">🎯 Big question: ${esc(UNIT[it.u].main)}</div>
+    <div class="main">⇄ You'll practice this both ways: ${both}.</div>
+    <div class="typeout"><p>Type it once to lock it in:</p><input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="err" id="err"></div>
+    <div class="row"><button class="primary" id="go">Got it<span class="kbd">Enter</span></button></div></div>`,
+    enterTo(go), "#ans");
+  bind("#go", go);
+  function go(){
+    const v=$("ans").value;
+    if(!checkAns(v, it.a)){ $("err").textContent="Type the answer shown above."; shake($("ans")); return; }
+    S.intro[i]=true; S.step++;
+    const f=S.c[i+"|f"], r=S.c[i+"|r"];
+    f.l=Math.max(f.l,1); r.l=Math.max(r.l,1); f.nx=S.step+2; r.nx=S.step+rint(4,5);
+    save(); learnNext();
+  }
+}
+
+/* --- show a card (learn levels 1-3, or typed for review / cram / practice) --- */
+function showCard(id, mode){
+  SS.cur=id;
+  const c=S.c[id], it=ITEMS[itemOf(id)], i=itemOf(id);
+  const lvl = mode==="learn" ? c.l : 3;
+  const tag = mode==="learn" ? `Level ${lvl} of 3` : mode==="review" ? "Review" : mode==="cram" ? "⚡ Cram" : "Practice";
+  if(lvl===1) return showMC(id, mode, tag);
+  show(`<div class="label">${tag}${mode==="cram"?` · ${SS.q.length} left`:mode==="review"?` · ${SS.q.length} left`:""}</div>${promptHTML(id, lvl===2)}
+    ${inputHTML(id)}${confButtons()}`,
+    enterTo(sh => submit(!sh)), "#ans");
+  bind("#sure", () => submit(true)); bind("#guess", () => submit(false));
+  function submit(sure){
+    const typed=$("ans").value;
+    if(!typed.trim()){ $("err").textContent = isExplain(id) ? "Write a sentence explaining it." : "Type an answer (or your best guess)."; shake($("ans")); return; }
+    const r = gradeCard(id, typed);
+    result(id, mode, r.ok, sure, typed, r.g);
+  }
+}
+function showMC(id, mode, tag){
+  const it=ITEMS[itemOf(id)], i=itemOf(id), d=dirOf(id);
+  let right, opts, qs=false;
+  if(d==="f"){
+    right = fwdAnswer(it).split(", ")[0];
+    let others = it.mc ? it.mc.slice() : shuffle(ITEMS.filter((x,k)=>k!==i && x.kind===it.kind)).slice(0,3).map(x=>x.a[0]);
+    opts = shuffle([right, ...others.slice(0,3)]);
+  } else if(it.kind==="v"){
+    right = it.la;
+    const pool = ITEMS.filter((x,k)=>k!==i && x.kind==="v");
+    const look = shuffle(pool.filter(x => norm(x.la)[0]===norm(it.la)[0])).slice(0,2);
+    const rest = shuffle(pool.filter(x => !look.includes(x))).slice(0,3-look.length);
+    opts = shuffle([right, ...look.concat(rest).map(x=>x.la)]);
+  } else {
+    qs = true; right = it.q;
+    opts = shuffle([right, ...shuffle(ITEMS.filter((x,k)=>k!==i && x.kind==="e")).slice(0,3).map(x=>x.q)]);
+  }
+  show(`<div class="label">${tag} · pick one</div>${promptHTML(id, mode==="learn")}${qs?`<div class="forms" style="margin-top:-8px">Which question does this answer?</div>`:""}
+    <div class="mc ${qs?"qs":""}">${opts.map((o,k)=>`<button data-k="${k}"><span class="k">${k+1}</span>${esc(o)}</button>`).join("")}</div>`,
+    e => { const n=+e.key; if(n>=1 && n<=opts.length){ e.preventDefault(); pick(n-1); } });
+  const btns=[...main.querySelectorAll(".mc button")];
+  btns.forEach(b => b.onclick = () => pick(+b.dataset.k));
+  let done=false;
+  function pick(k){
+    if(done) return; done=true;
+    const ok = opts[k]===right;
+    btns.forEach((b,j)=>{ b.disabled=true; if(opts[j]===right) b.classList.add("right"); else if(j===k) b.classList.add("wrong"); });
+    setTimeout(() => result(id, mode, ok, true, opts[k], null, true), ok?450:650);
+  }
+}
+
+/* --- after an answer --- */
+function result(id, mode, ok, sure, typed, g, wasMC){
+  const i=itemOf(id), c=S.c[id];
+  tally(ok, i);
+  const confidentMiss = !ok && sure && !wasMC;
+  if(mode==="learn"){
+    S.step++;
+    let gap;
+    if(ok && sure){ c.l=Math.min(4,c.l+1); if(c.l===4) scheduleNew(id); gap = c.l<=1?rint(2,3):c.l===2?rint(3,5):rint(6,9); }
+    else if(ok){ gap = rint(2,4); }
+    else { c.m++; c.l=Math.max(1,c.l-1); gap = confidentMiss ? rint(1,2) : c.l<=1?rint(2,3):c.l===2?rint(3,5):rint(6,9); }
+    c.nx = S.step+gap; save();
+    return ok ? correctScreen(id, sure, typed, g, learnNext, c.l===4) : correction(id, typed, confidentMiss, learnNext);
+  }
+  if(mode==="review" || mode==="practice"){
+    const again = SS.again.has(id);
+    if(!ok){ c.m++; if(!again && mode==="review") reviewUpdate(id,false,sure); SS.again.add(id); insertAt(SS.q, id, rint(3,5)); save(); return correction(id, typed, confidentMiss, nextQ); }
+    if(!again && mode==="review") reviewUpdate(id, true, sure);
+    save(); return correctScreen(id, sure, typed, g, nextQ);
+  }
+  if(mode==="cram"){
+    const run = SS.run[id] = SS.run[id]||0;
+    if(ok && sure){ SS.run[id]++; if(SS.run[id]>=2) cramComplete(id); else insertAt(SS.q, id, rint(5,8)); save(); return correctScreen(id, sure, typed, g, nextQ); }
+    if(ok){ SS.run[id]=0; insertAt(SS.q, id, rint(3,5)); save(); return correctScreen(id, sure, typed, g, nextQ); }
+    SS.run[id]=0; c.m++;
+    if(c.sch){ const s=c.sch; s.lapses++; s.ease=Math.max(1.3,s.ease-0.2); s.ivl=1; s.due=addDays(dayStart(now()),1); clampTests(); }
+    SS.missed.add(id);
+    insertAt(SS.q, id, rint(2,3)); save();
+    return correction(id, typed, confidentMiss, nextQ);
+  }
+}
+function nextQ(){ SS.mode==="cram" ? cramNext() : reviewNext(); }
+function insertAt(q, id, pos){ q.splice(Math.min(pos-1, q.length), 0, id); }
+
+function correctScreen(id, sure, typed, g, next, justMastered){
+  const it=ITEMS[itemOf(id)], i=itemOf(id);
+  let body;
+  if(g){
+    body = `<div class="you">You wrote: ${highlight(typed, g.hits)}</div><div class="idea">${esc(fullIdea(it))}</div>
+      <div class="keys">${g.keys.map(k=>`<span class="${g.hits.includes(k)?"hit":""}">${esc(k.w)}</span>`).join("")}</div>`;
+  } else body = `<div class="meaning" style="margin:0">${esc(dirOf(id)==="f"?fwdAnswer(it):revAnswer(it))}</div>`;
+  const msg = !sure ? "✓ Right, and you guessed. It'll come back soon to lock it in." : justMastered ? "✓ Mastered! ⭐" : ["✓ Correct!","✓ Nice!","✓ Yes!","✓ You got it!"][rint(0,3)];
+  show(`${promptHTML(id)}<div class="fb good"><div class="head">${msg}${S.st.streak>=5&&sure?` 🔥 ${S.st.streak}`:""}</div>${body}</div>${hookHTML(i)}
+    <div class="row"><button class="primary" id="go">Continue<span class="kbd">Enter</span></button></div>`,
+    enterTo(next));
+  bind("#go", next);
+}
+/* after any miss: compare, then type it out (or re-explain with the key words) */
+function correction(id, typed, confident, next){
+  SS.cur=id;
+  const it=ITEMS[itemOf(id)], i=itemOf(id), exp=isExplain(id);
+  const g = exp ? gradeExplain(it, typed||"") : null;
+  const leech = (S.miss[i]||0)>=3 && !S.hooks[i];
+  const answer = exp ? `<div class="idea">${esc(fullIdea(it))}</div><div class="keys">${g.keys.map(k=>`<span class="${g.hits.includes(k)?"hit":""}">${esc(k.w)}</span>`).join("")}</div>`
+                     : `<div class="meaning" style="margin:0">${esc(dirOf(id)==="f"?fwdAnswer(it):revAnswer(it))}</div>`;
+  show(`${promptHTML(id)}<div class="fb bad"><div class="head">✗ Not quite</div>${typed?`<div class="you">You ${exp?"wrote":"answered"}: ${esc(typed)}</div>`:""}<div class="sub">Right answer:</div>${answer}</div>
+    ${confident?`<div class="zap">⚡ Surprise mistake! You were sure, so this one will stick once you fix it. It's coming back very soon.</div>`:""}
+    ${hookHTML(i)}${warnHTML(i)}
+    <div class="typeout"><p>${exp?`Explain it again using at least ${g.need3} of the key words:`:"Type the right answer to continue:"}</p>${inputHTML(id, exp?"Re-explain it…":"Type the right answer")}<div class="err" id="err"></div>
+    ${leech?`<p style="margin-top:12px">✍️ This one keeps slipping. Write your own memory hook (optional):</p><input type="text" id="ownHook" placeholder="e.g. a picture, a rhyme, a joke">`:""}
+    <div class="row"><button class="primary" id="go">Continue<span class="kbd">Enter</span></button></div></div>`,
+    enterTo(go), "#ans");
+  bind("#go", go);
+  function go(){
+    const v=$("ans").value;
+    let ok;
+    if(exp){ const r=gradeExplain(it, v); ok = r.hits.length>=r.need3; }
+    else ok = dirOf(id)==="f" ? checkAns(v, it.a) : checkAns(v, it.rb);
+    if(!ok){ $("err").textContent = exp ? "Use more of the key words shown above." : "Type the answer shown above."; shake($("ans")); return; }
+    const oh=$("ownHook"); if(oh && oh.value.trim()){ S.hooks[i]=oh.value.trim(); save(); }
+    next();
+  }
+}
+
+/* ================= Final test ================= */
+function startTest(){
+  const ids = shuffle(cardsOf(selItems()));
+  for(let k=1;k<ids.length;k++) if(itemOf(ids[k])===itemOf(ids[k-1]) && k+1<ids.length) [ids[k],ids[k+1]]=[ids[k+1],ids[k]];
+  SS = {mode:"test", q:ids, i:0, wrong:[]};
+  S.stage[selKey()]="learn"; save();
+  testNext();
+}
+function testNext(){
+  if(SS.i>=SS.q.length) return testResults();
+  const id=SS.q[SS.i]; SS.cur=id;
+  show(`<div class="label">Final test · ${SS.i+1} of ${SS.q.length} · no hints</div>${promptHTML(id)}${inputHTML(id)}
+    <div class="row"><button class="primary" id="go">Submit<span class="kbd">Enter</span></button></div><div class="err" id="err"></div>`,
+    enterTo(go), "#ans");
+  bind("#go", go);
+  function go(){
+    const v=$("ans").value;
+    if(!v.trim()){ $("err").textContent="Type an answer (or your best guess)."; shake($("ans")); return; }
+    const r=gradeCard(id, v);
+    tally(r.ok, itemOf(id));
+    if(!r.ok) SS.wrong.push({id, typed:v});
+    SS.i++; save(); testNext();
+  }
+}
+function testResults(){
+  const n=SS.q.length, w=SS.wrong.length;
+  if(!w){
+    S.stage[selKey()]="apply"; save();
+    show(`<div class="center"><div class="big">🏆 Perfect: ${n}/${n}!</div><p>You know every card both ways. Apply is unlocked: use it in new examples.</p>
+      <div class="row" style="justify-content:center"><button class="primary" id="go">Go to Apply<span class="kbd">Enter</span></button></div></div>`, enterTo(startApply));
+    return bind("#go", startApply);
+  }
+  show(`<div class="center"><div class="big">${n-w}/${n} correct</div><p>So close! Fix the ${w} you missed, then practice them a bit more and try again.</p>
+    <div class="row" style="justify-content:center"><button class="primary" id="go">Fix them<span class="kbd">Enter</span></button></div></div>`, enterTo(fixStart));
+  bind("#go", fixStart);
+  function fixStart(){ SS.mode="fix"; SS.fi=0; fixNext(); }
+}
+function fixNext(){
+  SS.mode="fix";
+  if(SS.fi>=SS.wrong.length){ SS={mode:"learn", last:null}; save(); return learnNext(); }
+  const {id, typed} = SS.wrong[SS.fi];
+  const c=S.c[id]; c.m++; c.l=2; c.sch=null; c.nx=S.step+rint(1,3);
+  SS.fi++; save();
+  correction(id, typed, false, fixNext);
+}
+
+/* ================= Apply ================= */
+function applyItems(){
+  const its = selItems();
+  const sel = new Set(its.map(i=>norm(ITEMS[i].la||"")).filter(Boolean));
+  const known = new Set(ITEMS.map((x,i)=>i).filter(i=>ITEMS[i].kind==="v" && isMastered(i+"|f") && isMastered(i+"|r")).map(i=>norm(ITEMS[i].la)));
+  let out = [];
+  if(sel.size){
+    const ok = SENTENCES.filter(s => s.w.split(" ").every(w => sel.has(w) || known.has(w)));
+    out = ok.slice();
+    if(out.length<5){
+      const extra = SENTENCES.filter(s=>!out.includes(s)).map(s=>({s, n:s.w.split(" ").filter(w=>sel.has(w)).length})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n).slice(0, 8-out.length).map(x=>x.s);
+      out = out.concat(extra);
+    }
+    out = out.map(s => ({type:"s", ...s}));
+  }
+  if(S.sel.includes("G")) out = out.concat(GAPPLY.map(g => ({type:"e", ...g})));
+  return out;
+}
+function startApply(){
+  S.stage[selKey()]="apply"; save();
+  SS = {mode:"apply", q:shuffle(applyItems()), done:0};
+  SS.total = SS.q.length;
+  applyNext();
+}
+function applyNext(){
+  SS.mode="apply";
+  if(!SS.q.length){ S.stage[selKey()]="hub"; save(); return hub(true); }
+  const a=SS.q[0];
+  const head = a.type==="s" ? `<div class="label">Apply · translate into English · ${SS.done}/${SS.total} done</div><div class="sentence">${esc(a.la)}</div>`
+                            : `<div class="label">Apply · explain it like you're teaching a friend who missed class · ${SS.done}/${SS.total} done</div><div class="q">${esc(a.q)}</div>`;
+  show(`${head}<textarea id="ans" placeholder="${a.type==="s"?"Your translation…":"Your explanation…"}"></textarea>
+    ${a.type==="s"?`<div class="row"><button class="small" id="help">Show word help</button></div><div class="gloss" id="gloss"></div>`:""}
+    <div class="row"><button class="primary" id="go">Check<span class="kbd">Enter</span></button></div><div class="err" id="err"></div>`,
+    enterTo(go), "#ans");
+  bind("#help", () => { $("gloss").textContent = a.g; });
+  bind("#go", go);
+  function go(){
+    const v=$("ans").value;
+    if(!v.trim()){ $("err").textContent="Give it a try first."; shake($("ans")); return; }
+    applyReveal(a, v);
+  }
+}
+function applyReveal(a, typed){
+  show(`${a.type==="s"?`<div class="sentence">${esc(a.la)}</div>`:`<div class="q">${esc(a.q)}</div>`}
+    <div class="you">You wrote: ${esc(typed)}</div>
+    <div class="fb good"><div class="head">Model answer</div><div>${esc(a.en)}</div></div>
+    ${a.type==="s"?`<div class="gloss">${esc(a.g)}</div>`:`<div class="keys">${a.pts.map(p=>`<span>${esc(p)}</span>`).join("")}</div>`}
+    <p style="margin-top:14px">How did you do? Be honest: small wording differences are fine.</p>
+    <div class="row"><button class="primary" id="yes">✓ Got it<span class="kbd">1</span></button><button id="no">✗ Missed it<span class="kbd">2</span></button></div>`,
+    e => { if(e.key==="1"||e.key==="Enter"){ e.preventDefault(); yes(); } else if(e.key==="2"){ e.preventDefault(); no(); } });
+  bind("#yes", yes); bind("#no", no);
+  function yes(){ tally(true, -1); SS.q.shift(); SS.done++; save(); applyNext(); }
+  function no(){
+    tally(false, -1);
+    show(`${a.type==="s"?`<div class="sentence">${esc(a.la)}</div>`:`<div class="q">${esc(a.q)}</div>`}
+      <div class="fb bad"><div class="head">Type the model answer to lock it in</div><div>${esc(a.en)}</div></div>
+      <textarea id="ans"></textarea><div class="err" id="err"></div>
+      <div class="row"><button class="primary" id="go">Continue<span class="kbd">Enter</span></button></div>`,
+      enterTo(go), "#ans");
+    bind("#go", go);
+    function go(){
+      if(overlap($("ans").value, a.en) < 0.8){ $("err").textContent="Copy the model answer more closely (80% of the words)."; shake($("ans")); return; }
+      const x=SS.q.shift(); SS.q.splice(Math.min(3, SS.q.length), 0, x); applyNext();
+    }
+  }
+}
+
+/* ================= Hub ================= */
+function hub(fresh){
+  SS = {mode:"hub"}; save();
+  show(`<div class="center"><div class="big">${fresh?"🎉 Apply complete!":"🏁 Hub"}</div>
+    <p>You've finished Learn, the Final test and Apply for: <b>${S.sel.map(u=>esc(UNIT[u].title)).join(", ")}</b>. Your cards are now scheduled for review on the days you're most likely to forget them.</p></div>
     <div class="row" style="justify-content:center">
-      <button class="primary" id="b">${S.bonusDone?"Redo English → Latin":"Bonus: English → Latin"}</button>
-      <button id="s">Sentences again</button><button id="w">Review words</button></div></div>`;
-  $("b").onclick=()=>{S.stage="bonus";S.bonusQ=shuffle(range(N));save();render();};
-  $("s").onclick=()=>{S.stage="sent";S.sentQ=shuffle(range(SENTENCES.length));S.sentDone=0;save();render();};
-  $("w").onclick=()=>{S.lvl=S.lvl.map(()=>3);S.queue=[];S.stage="learn";save();render();};
+      <button class="primary" id="prac">Practice again</button><button id="test">Final test</button><button id="app">Apply</button><button id="cram">⚡ Cram</button><button id="other">Other units</button>
+    </div>`, null);
+  bind("#prac", () => startReview(true)); bind("#test", startTest); bind("#app", startApply); bind("#cram", cramSetup); bind("#other", home);
 }
 
-/* ===== Word list + reset ===== */
-$("listTable").innerHTML=VOCAB.map(w=>`<tr><td>${w.la}</td><td><b>${meaning(w)}</b>${w.f?`<div class="deriv">${w.f}</div>`:""}<div class="h">💡 ${w.h}</div></td></tr>`).join("");
-$("listBtn").onclick=()=>$("overlay").classList.add("open");
-$("closeList").onclick=()=>$("overlay").classList.remove("open");
-$("overlay").onclick=e=>{ if(e.target.id==="overlay") $("overlay").classList.remove("open"); };
-$("reset").onclick=()=>{ if(confirm("Reset all progress?")){S=fresh();save();render();} };
-const _render=render; render=function(){document.onkeydown=null;_render();};
-render();
+/* ================= Reviews & practice ================= */
+function interleave(ids){
+  const out=[], pool=ids.slice();
+  while(pool.length){
+    const prev = out.length ? itemOf(out[out.length-1]) : -1;
+    const ok = pool.slice(0,4).map((id,j)=>j).filter(j => itemOf(pool[j])!==prev);
+    const k = ok.length ? ok[rint(0, Math.min(1, ok.length-1))] : 0;
+    out.push(pool.splice(k,1)[0]);
+  }
+  return out;
+}
+function startReview(practice){
+  let ids;
+  if(practice){ ids = shuffle(cardsOf(selItems())); }
+  else {
+    const t = now(), testUnits = new Set(S.tests.flatMap(x=>x.units));
+    const risk = id => { const s=S.c[id].sch, it=ITEMS[itemOf(id)];
+      return (testUnits.has(it.u)?100:0) + (t-s.due)/DAY/Math.max(1,s.ivl) + (3-s.ease)*2; };
+    ids = dueCards().sort((a,b)=>risk(b)-risk(a)).slice(0,60);
+  }
+  if(!ids.length) return home();
+  SS = {mode: practice?"practice":"review", q:interleave(ids), again:new Set(), last:null, n:ids.length};
+  reviewNext();
+}
+function reviewNext(){
+  if(!SS.q.length) return reviewDone();
+  let k = SS.q.findIndex(id => id!==SS.last); if(k<0) k=0;
+  const id = SS.q.splice(k,1)[0]; SS.last=id;
+  showCard(id, SS.mode);
+}
+function reviewDone(){
+  const more = dueCards().length, practice = SS.mode==="practice";
+  SS.mode="home";
+  show(`<div class="center"><div class="big">✅ ${practice?"Practice":"Review"} done!</div><p>${practice?"Nice work. Your review schedule wasn't changed.":"Cards you knew well are spaced further out; shaky ones come back sooner."}</p>
+    <div class="row" style="justify-content:center">${more?`<button class="primary" id="more">Review ${Math.min(60,more)} more</button>`:""}<button ${more?"":'class="primary"'} id="home2">Home<span class="kbd">Enter</span></button></div></div>`,
+    enterTo(home));
+  bind("#more", () => startReview(false)); bind("#home2", home);
+}
+
+/* ================= Cram ================= */
+function weakness(id){ const c=S.c[id], s=c.sch;
+  return (c.l<4?100:0) + (s?s.lapses*10 + (3-s.ease)*5:0) + c.m*3 + (S.intro[itemOf(id)]?0:50); }
+function cramSetup(){
+  SS={mode:"cramsetup"};
+  const all = cardsOf(selItems()).length;
+  show(`<h2>⚡ Cram mode</h2><p>For: <b>${S.sel.map(u=>esc(UNIT[u].title)).join(", ")}</b>. Weakest cards first. Each card has to be right <b>twice in a row while you're sure</b>.</p>
+    <ul class="tips"><li>Go in short bursts (20-25 minutes), then take a 5 minute break.</li><li>Sleep after cramming. Sleep is when memories get locked in.</li><li>Tomorrow morning, open this page for a quick check of anything you missed.</li></ul>
+    <div class="row"><button class="primary" id="w40">Weakest ${Math.min(40,all)}<span class="kbd">Enter</span></button><button id="all">All ${all} cards</button><button id="back">Back</button></div>`,
+    enterTo(() => startCram(40)));
+  bind("#w40", () => startCram(40)); bind("#all", () => startCram(Infinity)); bind("#back", home);
+}
+function startCram(limit){
+  const ids = cardsOf(selItems()).sort((a,b)=>weakness(b)-weakness(a)).slice(0, limit);
+  const intros = [...new Set(ids.map(itemOf).filter(i=>!S.intro[i]))];
+  SS = {mode:"cram", q:interleave(ids), run:{}, missed:new Set(), intros, done:0, n:ids.length, last:null};
+  cramNext();
+}
+function cramNext(){
+  SS.mode="cram";
+  if(SS.intros.length) return cramIntro(SS.intros.shift());
+  if(!SS.q.length) return cramDone();
+  let k = SS.q.findIndex(id => id!==SS.last); if(k<0) k=0;
+  const id = SS.q.splice(k,1)[0]; SS.last=id;
+  showCard(id, "cram");
+}
+function cramIntro(i){
+  SS.cur=i+"|f";
+  const it=ITEMS[i];
+  show(`<div class="label new">⚡ Quick intro · new ${it.kind==="v"?"word":"idea"}</div>${promptHTML(i+"|f").replace(/<div class="label">.*?<\/div>/,"")}
+    <div class="fb good"><div class="meaning" style="margin:0">${esc(fwdAnswer(it))}</div>${it.kind==="e"?`<div class="sub" style="margin-top:4px">${esc(it.d)}</div>`:""}</div>${hookHTML(i)}${warnHTML(i)}
+    <div class="typeout"><p>Type it once:</p><input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="err" id="err"></div>
+    <div class="row"><button class="primary" id="go">Got it<span class="kbd">Enter</span></button></div></div>`, enterTo(go), "#ans");
+  bind("#go", go);
+  function go(){
+    if(!checkAns($("ans").value, it.a)){ $("err").textContent="Type the answer shown above."; shake($("ans")); return; }
+    S.intro[i]=true; ["f","r"].forEach(d=>{ const c=S.c[i+"|"+d]; c.l=Math.max(c.l,1); }); save(); cramNext();
+  }
+}
+function cramComplete(id){
+  SS.done++;
+  const c=S.c[id];
+  if(c.l<4){ c.l=4; scheduleNew(id); }
+}
+function cramDone(){
+  const missed = SS.missed.size;
+  SS.mode="home"; save();
+  show(`<div class="center"><div class="big">⚡ Cram complete: ${SS.done} cards!</div>
+    <p>${missed?`${missed} card${missed>1?"s were":" was"} tricky. They're scheduled for a <b>morning check</b> tomorrow.`:"Everything stuck. Nice!"}</p>
+    <p>😴 Now go to sleep: it locks in what you just studied. Open this page tomorrow morning for a quick review.</p>
+    <div class="row" style="justify-content:center"><button class="primary" id="h">Home<span class="kbd">Enter</span></button></div></div>`, enterTo(home));
+  bind("#h", home);
+}
+
+/* ================= Word list, settings, reset ================= */
+$("homeBtn").onclick = () => home();
+$("listBtn").onclick = () => {
+  $("listTable").innerHTML = selItems().map(i => { const it=ITEMS[i];
+    return `<tr><td>${esc(it.kind==="v"?it.la:it.q)}</td><td>${esc(fwdAnswer(it))}<div class="h">💡 ${esc(it.h)}${S.hooks[i]?`<br>✍️ ${esc(S.hooks[i])}`:""}</div></td></tr>`; }).join("");
+  $("listOv").classList.add("open");
+};
+$("closeList").onclick = () => $("listOv").classList.remove("open");
+function exportCode(){ return btoa(unescape(encodeURIComponent(JSON.stringify({key:KEY, data:S})))); }
+$("setBtn").onclick = () => { $("exportBox").value = exportCode(); $("importErr").textContent=""; $("copyMsg").textContent=""; $("setOv").classList.add("open"); };
+$("closeSet").onclick = () => $("setOv").classList.remove("open");
+$("copyBtn").onclick = () => { $("exportBox").select(); try{ navigator.clipboard.writeText($("exportBox").value); }catch(e){ try{document.execCommand("copy");}catch(e2){} } $("copyMsg").textContent="Copied!"; };
+function importCode(code){
+  let obj;
+  try { obj = JSON.parse(decodeURIComponent(escape(atob(String(code).trim())))); } catch(e){ return "That code doesn't look right. Copy the whole code and try again."; }
+  if(!obj || obj.key!==KEY) return "That code is from a different trainer, so it can't be loaded here.";
+  const s = migrate(obj.data);
+  if(!s) return "That code is damaged. Try copying it again.";
+  S = s; save(); return null;
+}
+$("importBtn").onclick = () => {
+  const err = importCode($("importBox").value);
+  if(err){ $("importErr").textContent = err; return; }
+  $("setOv").classList.remove("open"); home();
+};
+$("eraseBtn").onclick = () => { if(confirm("Erase ALL progress for this trainer? This can't be undone.")){ S=freshState(); save(); $("setOv").classList.remove("open"); home(); } };
+$("resetSel").onclick = () => {
+  if(!confirm("Reset progress for the selected units?")) return;
+  selItems().forEach(i => { delete S.intro[i]; delete S.hooks[i]; delete S.miss[i]; S.c[i+"|f"]={l:0,nx:0,m:0,sch:null}; S.c[i+"|r"]={l:0,nx:0,m:0,sch:null}; });
+  Object.keys(S.stage).forEach(k => { if(S.sel.some(u=>k.includes(u))) delete S.stage[k]; });
+  save(); home();
+};
+
+home();
 </script>
 </body>
 </html>
