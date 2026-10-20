@@ -6,13 +6,12 @@ A Claude skill that turns your study material (a photo of a textbook page, a wor
 
 ## Install
 
-
-1. Download **[study-skill-v2.zip](study-skill-v2.zip)** (latest). The older version is still here as [study-skill-v1.zip](study-skill-v1.zip).
+1. Download **[study-skill-v3.zip](study-skill-v3.zip)** (latest). Older versions: [v2](study-skill-v2.zip), [v1](study-skill-v1.zip).
 2. In Claude, go to **Customize → Skills** ([claude.ai/customize/skills](https://claude.ai/customize/skills)).
 3. Click **+**, then **Create skill**, then **Upload a skill**, and choose the zip.
 4. Make sure the skill is toggled **on**. Skills also need **Code execution and file creation** turned on in Settings → Capabilities.
 
-If you already have v1 installed, turn it off (or delete it) so Claude uses v2.
+If you already have an older version installed, turn it off (or delete it) so Claude uses v3.
 
 More detail: [Use Skills in Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
 
@@ -30,9 +29,17 @@ Examples:
 
 Claude sends back an `.html` file. Open it in your browser and start studying.
 
-**Tips:** learn a little each night, do your reviews when the app says cards are due, use ⚡ Cram the night before a quiz (then sleep!), and back up your progress with ⚙️.
+**Tips:** learn a little each night, do your reviews when the app says cards are due, use ⚡ Cram the night before a quiz (then sleep!), play the 🎮 Arcade for extra practice, and back up your progress with ⚙️.
 
-## What's new in v2
+## What's new in v3
+
+- A bright, colorful look with an animated background, in light and dark mode.
+- **5 arcade modes:** ⏱️ Speed Round, 🧩 Match, 🛡️ Survival, 🦁 Boss Battle (made of your toughest cards), and 🃏 Flashcards.
+- **XP, levels and 17 badges**, plus a 🎯 daily goal ring.
+- **Celebrations:** confetti and big banners for streaks (5, 10, 15, 20, 25… in a row), stars when you master an item both ways, fireworks when you master a unit or ace the final test, and sound effects (with an on/off switch).
+- The skill now ships with a tested template, so every new trainer gets all of this.
+
+## What was new in v2
 
 - Every item is learned **both ways**: prompt → answer, and answer → explain it in your own words.
 - **Cram mode** for the night before a test, plus a morning check of what you missed.
@@ -44,7 +51,8 @@ Claude sends back an `.html` file. Open it in your browser and start studying.
 ```
 README.md            ← this page
 index.html           ← the GitHub Pages home page
-study-skill-v2.zip   ← the skill (latest), upload this to Claude
+study-skill-v3.zip   ← the skill (latest), upload this to Claude
+study-skill-v2.zip   ← the previous version
 study-skill-v1.zip   ← the original version
 latin-example.html   ← an example trainer
 ```
