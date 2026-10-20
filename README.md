@@ -6,6 +6,7 @@ A Claude skill that turns your study material (a photo of a textbook page, a wor
 
 ## Install
 
+
 1. Download **[study-skill-v2.zip](study-skill-v2.zip)** (latest). The older version is still here as [study-skill-v1.zip](study-skill-v1.zip).
 2. In Claude, go to **Customize → Skills** ([claude.ai/customize/skills](https://claude.ai/customize/skills)).
 3. Click **+**, then **Create skill**, then **Upload a skill**, and choose the zip.
